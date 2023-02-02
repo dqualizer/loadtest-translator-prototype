@@ -1,4 +1,4 @@
-package dq.loadtesttranslatorprototype;
+package dq.mongo;
 
 import org.junit.jupiter.api.Test;
 
