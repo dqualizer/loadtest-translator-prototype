@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LoadtestTranslatorPrototypeApplication {
+public class LoadtestTranslatorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LoadtestTranslatorPrototypeApplication.class, args);
+		SpringApplication.run(LoadtestTranslatorApplication.class, args);
 		System.out.println("### PROTOTYPE STARTED ###");
 	}
 }

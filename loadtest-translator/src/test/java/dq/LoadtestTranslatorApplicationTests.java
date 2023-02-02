@@ -1,8 +1,8 @@
-package dq.mongo;
+package dq;
 
 import org.junit.jupiter.api.Test;
 
-class LoadtestTranslatorPrototypeApplicationTests {
+class LoadtestTranslatorApplicationTests {
 
 	/**
 	 * No tests available yet

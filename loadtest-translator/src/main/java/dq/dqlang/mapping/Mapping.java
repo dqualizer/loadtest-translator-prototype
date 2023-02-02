@@ -1,4 +1,4 @@
-package dq.dqlang;
+package dq.dqlang.mapping;
 
 import lombok.Getter;
 import lombok.ToString;

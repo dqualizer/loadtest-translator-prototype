@@ -2,7 +2,7 @@ package dq.input;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dq.config.PathConfig;
-import dq.dqlang.Mapping;
+import dq.dqlang.mapping.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
