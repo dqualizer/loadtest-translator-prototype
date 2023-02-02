@@ -11,13 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelingReceiver {
 
-    @RabbitListener(queues = Constant.MODELING_QUEUE)
+    //@RabbitListener(queues = Constant.MODELING_QUEUE)
     public Modeling receive(@Payload String modelingJSON) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        //Modeling modeling = objectMapper.readValue(modelingJSON, Modeling.class);
+        Modeling modeling = objectMapper.readValue(modelingJSON, Modeling.class);
 
-        //return modeling;
-        System.out.println("#######################################################");
-        return null;
+        return modeling;
     }
 }
