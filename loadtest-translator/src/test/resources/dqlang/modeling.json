@@ -1,0 +1,59 @@
+{
+    "version": 1.0,
+    "context": "kinokasse",
+    "runtime_quality_analysis": {
+        "monitoring": [],
+        "resilience": [],
+        "loadtest": [
+            {
+                "artifact": "id1",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "VERY_HIGH",
+                    "time_to_highest_load": "FAST",
+                    "accuracy": 50
+                },
+                "environment": "TEST",
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            },
+            {
+                "artifact": {
+                    "id1": "id10"
+                },
+                "description": "Öffnen der Kino App",
+                "stimulus": {
+                    "load_profile": "LOAD_INCREASE",
+                    "type_of_increase": "QUADRATIC",
+                    "accuracy": 40
+                },
+                "environment": "TEST",
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": []
+            },
+            {
+                "artifact": {
+                    "id1": "id11"
+                },
+                "stimulus": {
+                    "load_profile": "CONSTANT_LOAD",
+                    "base_load": "MEDIUM",
+                    "accuracy": 80
+                },
+                "environment": "TEST",
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": []
+            }
+        ]
+    }
+}

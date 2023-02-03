@@ -11,5 +11,5 @@ public class RuntimeQualityAnalysis {
 
     private LinkedHashSet<Object> monitoring;
     private LinkedHashSet<Object> resilience;
-    private LinkedHashSet<LoadTest> loadtest;
+    private LinkedHashSet<ModeledLoadTest> loadtest;
 }
