@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class URLRetrieverMock {
 
     public String retrieve(String url) {
-        return "localhost:8080";
+        return url;
     }
 }

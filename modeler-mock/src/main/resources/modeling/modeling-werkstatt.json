@@ -1,17 +1,19 @@
 {
     "version": 1.0,
-    "context": "kinokasse",
+    "context": "werkstattauftrag",
     "runtime_quality_analysis": {
         "monitoring": [],
         "resilience": [],
         "loadtest": [
             {
-                "artifact": "id1",
+                "artifact": {
+                    "id1": "id3"
+                },
                 "stimulus": {
                     "load_profile": "LOAD_PEAK",
                     "highest_load": "VERY_HIGH",
                     "time_to_highest_load": "FAST",
-                    "accuracy": 50
+                    "accuracy": 80
                 },
                 "environment": "TEST",
                 "response_measure": {
@@ -25,13 +27,13 @@
             },
             {
                 "artifact": {
-                    "id1": "id10"
+                    "id1": "id4"
                 },
-                "description": "Öffnen der Kino App",
+                "description": "Auftrag anlegen",
                 "stimulus": {
                     "load_profile": "LOAD_INCREASE",
                     "type_of_increase": "QUADRATIC",
-                    "accuracy": 40
+                    "accuracy": 70
                 },
                 "environment": "TEST",
                 "response_measure": {
@@ -41,12 +43,13 @@
             },
             {
                 "artifact": {
-                    "id1": "id11"
+                    "id1": "id5"
                 },
+                "description": "Auftragsstatus anpassen",
                 "stimulus": {
                     "load_profile": "CONSTANT_LOAD",
                     "base_load": "MEDIUM",
-                    "accuracy": 80
+                    "accuracy": 60
                 },
                 "environment": "TEST",
                 "response_measure": {

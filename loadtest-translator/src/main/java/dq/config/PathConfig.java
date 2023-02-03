@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PathConfig {
 
-    private final String mapping = "mapping/mapping.json";
+    private final String mapping = "mapping/mapping-werkstatt.json";
     private final String resources = getResourcePath();
 
     public String getMapping() {

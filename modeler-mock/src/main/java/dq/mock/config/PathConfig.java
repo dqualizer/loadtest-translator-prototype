@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PathConfig {
 
-    private final String modeling = "modeling/modeling.json";
+    private final String modeling = "modeling/modeling-werkstatt.json";
     private final String resources = getResourcePath();
 
     public String getModeling() {
