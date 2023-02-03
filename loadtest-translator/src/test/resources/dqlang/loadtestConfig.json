@@ -6,7 +6,8 @@
   "load_tests": [
     {
       "artifact": {
-        "id1": "id10"
+        "object": "id1",
+        "activity": "id10"
       },
       "description" :"string",
       "stimulus": {

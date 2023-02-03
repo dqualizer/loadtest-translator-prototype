@@ -6,6 +6,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Exports the loadtest configuration via RabbitMQ
+ */
 @Component
 public class LoadTestProducer {
 

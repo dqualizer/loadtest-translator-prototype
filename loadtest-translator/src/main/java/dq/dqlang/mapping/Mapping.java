@@ -6,6 +6,9 @@ import lombok.ToString;
 
 import java.util.LinkedHashSet;
 
+/**
+ * Java class for the mapping representation
+ */
 @Getter
 @ToString
 public class Mapping {

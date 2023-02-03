@@ -10,10 +10,9 @@ import java.util.LinkedHashSet;
 @ToString
 public class ModeledLoadTest {
 
-    private Object artifact;
+    private Artifact artifact;
     private String description;
     private Stimulus stimulus;
-    private String environment;
     @JsonProperty("response_measure")
     private ResponseMeasure responseMeasure;
     @JsonProperty("result_metrics")
