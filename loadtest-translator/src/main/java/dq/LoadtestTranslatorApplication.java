@@ -8,6 +8,6 @@ public class LoadtestTranslatorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoadtestTranslatorApplication.class, args);
-		System.out.println("### PROTOTYPE STARTED ###");
+		System.out.println("### LOADTEST TRANSLATOR STARTED ###");
 	}
 }

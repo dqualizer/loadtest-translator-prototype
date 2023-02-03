@@ -17,7 +17,8 @@ public class TranslationManager {
     private MappingLoader mappingLoader;
 
     public void start(Modeling modeling) throws IOException {
-        logger.info("Manager ready");
-        Mapping mapping = mappingLoader.load();
+        String context = modeling.getContext();
+        Mapping mapping = mappingLoader.load(context);
+        logger.info("Mapping loaded");
     }
 }

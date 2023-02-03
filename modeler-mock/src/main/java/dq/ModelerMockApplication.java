@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ModelerMockApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ModelerMockApplication.class, args);
-		System.out.println("### MODELER STARTED ###");
+		System.out.println("### MODELER MOCK STARTED ###");
 	}
 }
