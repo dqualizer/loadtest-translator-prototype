@@ -2,7 +2,7 @@ package dq;
 
 import org.junit.jupiter.api.Test;
 
-class LoadtestTranslatorApplicationTests {
+class LoadtestTranslationManagerApplicationTests {
 
 	/**
 	 * No tests available yet

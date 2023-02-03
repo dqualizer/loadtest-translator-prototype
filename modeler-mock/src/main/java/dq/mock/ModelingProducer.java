@@ -21,7 +21,7 @@ public class ModelingProducer {
     private PathConfig paths;
 
     @EventListener(ApplicationReadyEvent.class)
-    public String produce() throws IOException {
+    public void produce() throws IOException {
         String modeling = this.loadModeling();
 
         template.convertAndSend(
@@ -29,8 +29,6 @@ public class ModelingProducer {
                 Constant.KEY,
                 modeling
         );
-
-        return "MODELING WAS PRODUCED";
     }
 
     private String loadModeling() throws IOException {

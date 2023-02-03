@@ -20,7 +20,6 @@ public class MappingLoader {
     @Autowired
     private PathConfig paths;
 
-    @EventListener(ApplicationReadyEvent.class)
     public Mapping load() throws IOException {
         String mappingPath = paths.getMapping();
         String mappingJSON = Files.readString(Paths.get(mappingPath));
