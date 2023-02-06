@@ -21,7 +21,6 @@ public class SchemaProducer {
                 Constant.KEY,
                 schema
         );
-
         return "API SCHEMA WAS PRODUCED";
     }
 }

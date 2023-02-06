@@ -58,7 +58,11 @@ public class PathsAdapter {
         JSONObject schema = requestBody.getJSONObject("content").getJSONObject("application/json")
                 .getJSONObject("schema");
         String bodyType = "";
-        if(schema.has("$ref")) bodyType = schema.getString("$ref");
+        if(schema.has("$ref")) {
+            String bodyTypeReference = schema.getString("$ref");
+            //leave only the name of the data type
+            bodyType = bodyTypeReference.replaceAll("(.*)(?<=./)", "");
+        }
         else if(schema.has("type")) bodyType = schema.getString("type");
 
         return new Body(bodyType);
@@ -76,7 +80,11 @@ public class PathsAdapter {
             JSONObject schema = oneResponse.getJSONObject("content").getJSONObject("application/json")
                     .getJSONObject("schema");
             String type = "";
-            if(schema.has("$ref")) type = schema.getString("$ref");
+            if(schema.has("$ref")) {
+                String typeReference = schema.getString("$ref");
+                //leave only the name of the data type
+                type = typeReference.replaceAll("(.*)(?<=./)", "");
+            }
             else if(schema.has("type")) type = schema.getString("type");
 
             Output output = new Output(type, response);
