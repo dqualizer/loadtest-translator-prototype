@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "context": "kinoapp",
+  "environment": "TEST",
+  "base_url": "localhost:8080",
+  "load_tests": [
+    {
+      "artifact": {
+        "object": "id1",
+        "activity": "id10"
+      },
+      "description" :"string",
+      "stimulus": {
+        "load_profile": "LOAD_PEAK",
+        "highest_load": "HIGH",
+        "time_to_highest_load": "VERY_FAST",
+        "accuracy": 100
+      },
+      "response_measure": {
+        "response_time": "SATISFIED"
+      },
+      "endpoint": {
+        "field": "/kinoapp/{version}/open",
+        "operation": "GET",
+        "payload": {
+          "valid_nutzer": "dq/kinoapp/open/valid_nutzer.csv",
+          "invalid_nutzer": "dq/kinoapp/open/invalid_nutzer.csv"
+        },
+        "path_variables": {
+          "kinoapp_version": "dq/kinoapp/versions.csv"
+        },
+        "parameter": {
+          "headers": "dq/kinoapp/headers.csv",
+          "cookies": "dq/kinoapp/cookies.csv"
+        },
+        "responses": [
+          {
+              "expected_code": 200,
+              "type": "id15"
+          },
+          {
+              "expected_code": 404,
+              "type": "null"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+    "version": 1.0,
+    "context": "werkstattauftrag",
+    "environment": "TEST",
+    "base_url": "localhost:9000",
+    "load_tests": [
+        {
+          "artifact": {
+            "object": "id1",
+            "activity": "id3"
+          },
+          "description" : null,
+          "stimulus": {
+            "load_profile": "LOAD_PEAK",
+            "highest_load": "VERY_HIGH",
+            "time_to_highest_load": "FAST",
+                "accuracy": 80
+            },
+            "response_measure": {
+                "response_time": "SATISFIED"
+            },
+            "endpoint": {
+                "field": "/auftrag/{auftragsnummer}",
+                "operation": "GET",
+                "path_variables": {
+                "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                },
+                "parameter": {},
+                "payload": {},
+                "responses": [
+                {
+                    "expected_code": 200,
+                    "type": "id8"
+                }
+                ]
+            }
+            },
+        {
+            "artifact": {
+                "object": "id1",
+                "activity": "id4"
+            },
+            "description": "Auftrag anlegen",
+            "stimulus": {
+                "load_profile": "LOAD_INCREASE",
+                "type_of_increase": "QUADRATIC",
+                "accuracy": 70
+            },
+            "response_measure": {
+                "response_time": "SATISFIED"
+            },
+            "endpoint": {
+                "field": "/auftrag/new",
+                "operation": "POST",
+                "path_variables": {},
+                "parameter": {
+                    "headers": "auftrag/allgemein/headers.json"
+                },
+                "payload": {
+                    "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json"
+                },
+                "responses": [
+                    {
+                        "expected_code": 201,
+                        "type": "id8"
+                    }
+                ]
+            }
+        },
+        {
+            "artifact": {
+                "object": "id1",
+                "activity": "id5"
+            },
+            "description": "Auftragsstatus anpassen",
+            "stimulus": {
+                "load_profile": "CONSTANT_LOAD",
+                "base_load": "MEDIUM",
+                "accuracy": 60
+            },
+            "response_measure": {
+                "response_time": "TOLERATED"
+            },
+            "endpoint": {
+                "field": "/auftrag/{auftragsnummer}",
+                "operation": "PUT",
+                "path_variables": {
+                    "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                },
+                "parameter": {
+                    "headers": "auftrag/allgemein/headers.json"
+                },
+                "payload": {
+                    "auftragstatus": "auftrag/auftragsstatus/auftragstatus.json"
+                },
+                "responses": [
+                    {
+                        "expected_code": 200,
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+      ]
+}
