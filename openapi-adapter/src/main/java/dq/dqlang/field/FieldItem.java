@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 @NoArgsConstructor
 public class FieldItem {
 
+    private String path;
     @JsonProperty("operation_id")
     private String operationID;
     private String operation;

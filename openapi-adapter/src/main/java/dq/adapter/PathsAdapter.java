@@ -12,7 +12,7 @@ import java.util.Set;
 public class PathsAdapter {
 
     public Field getField(JSONObject pathsObject) {
-        Field field = new Field();
+        LinkedHashSet<FieldItem> fieldItems = new LinkedHashSet<>();
         Set<String> paths = pathsObject.keySet();
 
         for(String path : paths) {
@@ -27,11 +27,11 @@ public class PathsAdapter {
                 Body body = this.getBody(operationObject);
                 LinkedHashSet<Output> outputs = this.getOutput(operationObject);
 
-                FieldItem item = new FieldItem(operationID, operation, inputs, body, outputs);
-                field.addPathItem(path, item);
+                FieldItem item = new FieldItem(path, operationID, operation, inputs, body, outputs);
+                fieldItems.add(item);
             }
         }
-        return field;
+        return new Field(fieldItems);
     }
 
     private LinkedHashSet<Input> getInput(JSONObject operationObject) {

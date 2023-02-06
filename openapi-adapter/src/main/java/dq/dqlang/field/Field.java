@@ -1,17 +1,18 @@
 package dq.dqlang.field;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 @Getter
 @ToString
-public class Field extends LinkedHashMap<String, FieldItem> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Field {
 
-    public Field addPathItem(String name, FieldItem item) {
-        this.put(name, item);
-        return this;
-    }
+    private LinkedHashSet<FieldItem> items;
 }
