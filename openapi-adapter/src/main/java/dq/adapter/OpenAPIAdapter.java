@@ -28,7 +28,7 @@ public class OpenAPIAdapter {
 
     public APISchema adapt(JSONObject openAPISchema) {
         String api = "OpenAPI_" + openAPISchema.getString("openapi");
-        LinkedHashSet<ServerInfo> serverInfo = this.getServerInfos(openAPISchema.getJSONArray("servers"));
+        LinkedHashSet<ServerInfo> serverInfo = this.getServerInfo(openAPISchema.getJSONArray("servers"));
         Field field = pathsAdapter.getField(openAPISchema.getJSONObject("paths"));
         DataSchemas schemas = componentsAdapter.getDataSchemas(openAPISchema.getJSONObject("components"));
 
@@ -36,7 +36,7 @@ public class OpenAPIAdapter {
         return apiSchema;
     }
 
-    private LinkedHashSet<ServerInfo> getServerInfos(JSONArray servers) {
+    private LinkedHashSet<ServerInfo> getServerInfo(JSONArray servers) {
         LinkedHashSet<ServerInfo> infos = new LinkedHashSet<>();
 
         for(int i = 0; i < servers.length(); i++) {

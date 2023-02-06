@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Map;
+
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Output {
 
-    private String type;
+    private Map<String, DataType> contentTypes;
     @JsonProperty("expected_code")
     private String expectedCode;
 }

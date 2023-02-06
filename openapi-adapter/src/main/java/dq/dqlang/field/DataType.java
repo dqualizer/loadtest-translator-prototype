@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Map;
-
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Body {
+public class DataType {
 
-    private Map<String, DataType> contentTypes;
+    private String type;
 }
