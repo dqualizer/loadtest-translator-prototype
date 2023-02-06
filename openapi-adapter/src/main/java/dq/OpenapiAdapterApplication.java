@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ModelerMockApplication {
+public class OpenapiAdapterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ModelerMockApplication.class, args);
-		System.out.println("### MODELER MOCK STARTED ###");
+		SpringApplication.run(OpenapiAdapterApplication.class, args);
+		System.out.println("### OPENAPI ADAPTER STARTED ###");
 	}
 }
