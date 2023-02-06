@@ -1,4 +1,4 @@
-package dq.config.rabbit;
+package dq.rabbit;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -9,17 +9,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelingMQConfig {
+public class TranslatorMQConfig {
 
     @Bean
-    public TopicExchange modelingExchange() { return new TopicExchange(Constant.MODELER_EXCHANGE); }
+    public TopicExchange loadtestExchange() { return new TopicExchange(Constant.LOADTEST_EXCHANGE); }
 
     @Bean
-    public Queue modelingQueue() { return new Queue(Constant.MODELING_QUEUE, false); }
+    public Queue loadtestQueue() { return new Queue(Constant.LOADTEST_QUEUE, false); }
 
     @Bean
-    public Binding modelingBinding(@Qualifier("modelingQueue") Queue queue,
-                                 @Qualifier("modelingExchange") TopicExchange exchange) {
+    public Binding loadtestBinding(@Qualifier("loadtestQueue") Queue queue,
+                                 @Qualifier("loadtestExchange") TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(Constant.GET_KEY);
     }
 }

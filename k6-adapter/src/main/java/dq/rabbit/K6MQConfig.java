@@ -1,4 +1,4 @@
-package dq.config.rabbit;
+package dq.rabbit;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -9,17 +9,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class LoadtestMQConfig {
+public class K6MQConfig {
 
     @Bean
-    public TopicExchange loadtestExchange() { return new TopicExchange(Constant.LOADTEST_EXCHANGE); }
+    public TopicExchange k6Exchange() { return new TopicExchange(Constant.K6_EXCHANGE); }
 
     @Bean
-    public Queue loadtestQueue() { return new Queue(Constant.LOADTEST_QUEUE, false); }
+    public Queue k6Queue() { return new Queue(Constant.K6_QUEUE, false); }
 
     @Bean
-    public Binding loadtestBinding(@Qualifier("loadtestQueue") Queue queue,
-                                 @Qualifier("loadtestExchange") TopicExchange exchange) {
+    public Binding k6Binding(@Qualifier("k6Queue") Queue queue,
+                                 @Qualifier("k6Exchange") TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(Constant.POST_KEY);
     }
 }

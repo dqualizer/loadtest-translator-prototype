@@ -17,6 +17,20 @@ services:
       context: modeler-mock
       dockerfile: Dockerfile
     ports:
+      - "8070:8070"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      loadtest-translator:
+        condition: service_started
+
+  k6-adapter:
+    build:
+      context: k6-adapter
+      dockerfile: Dockerfile
+    ports:
       - "8090:8090"
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
