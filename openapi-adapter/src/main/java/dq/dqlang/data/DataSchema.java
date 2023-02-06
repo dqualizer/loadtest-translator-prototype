@@ -13,5 +13,6 @@ import java.util.LinkedHashSet;
 @NoArgsConstructor
 public class DataSchema {
 
+    private String type;
     private LinkedHashSet<Property> properties;
 }

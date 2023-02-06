@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.LinkedHashSet;
+import java.util.Map;
 
 @Getter
 @ToString
@@ -19,6 +20,6 @@ public class FieldItem {
     private String operationID;
     private String operation;
     private LinkedHashSet<Input> input;
-    private Body body;
-    private LinkedHashSet<Output> output;
+    private Map<String, DataType> body;
+    private LinkedHashSet<Map<String, Output>> output;
 }

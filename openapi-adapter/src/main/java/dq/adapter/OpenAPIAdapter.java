@@ -3,8 +3,6 @@ package dq.adapter;
 import dq.dqlang.APISchema;
 import dq.dqlang.ServerInfo;
 import dq.dqlang.data.DataSchema;
-import dq.dqlang.data.DataSchemas;
-import dq.dqlang.data.Property;
 import dq.dqlang.field.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Map;
 
 @Component
 public class OpenAPIAdapter {
@@ -29,8 +26,8 @@ public class OpenAPIAdapter {
     public APISchema adapt(JSONObject openAPISchema) {
         String api = "OpenAPI_" + openAPISchema.getString("openapi");
         LinkedHashSet<ServerInfo> serverInfo = this.getServerInfo(openAPISchema.getJSONArray("servers"));
-        Field field = pathsAdapter.getField(openAPISchema.getJSONObject("paths"));
-        DataSchemas schemas = componentsAdapter.getDataSchemas(openAPISchema.getJSONObject("components"));
+        LinkedHashSet<FieldItem> field = pathsAdapter.getField(openAPISchema.getJSONObject("paths"));
+        Map<String, DataSchema> schemas = componentsAdapter.getDataSchemas(openAPISchema.getJSONObject("components"));
 
         APISchema apiSchema = new APISchema(context, api, serverInfo, field, schemas);
         return apiSchema;

@@ -1,7 +1,6 @@
 package dq.adapter;
 
 import dq.dqlang.field.*;
-import io.swagger.v3.core.util.Json;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import java.util.Set;
 @Component
 public class PathsAdapter {
 
-    public Field getField(JSONObject pathsObject) {
+    public LinkedHashSet<FieldItem> getField(JSONObject pathsObject) {
         LinkedHashSet<FieldItem> fieldItems = new LinkedHashSet<>();
         Set<String> paths = pathsObject.keySet();
 
@@ -27,14 +26,14 @@ public class PathsAdapter {
 
                 String operationID = operationObject.getString("operationId");
                 LinkedHashSet<Input> inputs = this.getInput(operationObject);
-                Body body = this.getBody(operationObject);
-                LinkedHashSet<Output> outputs = this.getOutput(operationObject);
+                Map<String, DataType> body = this.getBody(operationObject);
+                LinkedHashSet<Map<String, Output>> outputs = this.getOutput(operationObject);
 
                 FieldItem item = new FieldItem(path, operationID, operation, inputs, body, outputs);
                 fieldItems.add(item);
             }
         }
-        return new Field(fieldItems);
+        return fieldItems;
     }
 
     private LinkedHashSet<Input> getInput(JSONObject operationObject) {
@@ -44,27 +43,29 @@ public class PathsAdapter {
         JSONArray parameters = operationObject.getJSONArray("parameters");
         for (int i = 0; i < parameters.length(); i++) {
             JSONObject parameter = parameters.getJSONObject(i);
+
             String name = parameter.getString("name");
             String in = parameter.getString("in");
             boolean required = parameter.getBoolean("required");
             String type = parameter.getJSONObject("schema").getString("type");
+
             Input input = new Input(name, in, required, type);
             inputs.add(input);
         }
         return inputs;
     }
 
-    private Body getBody(JSONObject operationObject) {
-        if (!operationObject.has("requestBody")) return new Body();
+    private Map<String, DataType> getBody(JSONObject operationObject) {
+        if (!operationObject.has("requestBody")) return new LinkedHashMap<>();
 
         JSONObject requestBody = operationObject.getJSONObject("requestBody");
         JSONObject content = requestBody.getJSONObject("content");
-        Map<String, DataType> dataTypes = this.getDataTypes(content);
-        return new Body(dataTypes);
+        Map<String, DataType> body = this.getDataTypes(content);
+        return body;
     }
 
-    private LinkedHashSet<Output> getOutput(JSONObject operationObject) {
-        LinkedHashSet<Output> outputs = new LinkedHashSet<>();
+    private LinkedHashSet<Map<String, Output>> getOutput(JSONObject operationObject) {
+        LinkedHashSet<Map<String, Output>> outputs = new LinkedHashSet<>();
         if (!operationObject.has("responses")) return outputs;
 
         JSONObject responsesObject = operationObject.getJSONObject("responses");
@@ -73,9 +74,8 @@ public class PathsAdapter {
         for (String response : responses) {
             JSONObject oneResponse = responsesObject.getJSONObject(response);
             JSONObject content = oneResponse.getJSONObject("content");
-            Map<String, DataType> dataTypes = this.getDataTypes(content);
 
-            Output output = new Output(dataTypes, response);
+            Map<String, Output> output = this.getOneOutput(content, response);
             outputs.add(output);
         }
         return outputs;
@@ -100,5 +100,26 @@ public class PathsAdapter {
             dataTypes.put(contentType, dataType);
         }
         return dataTypes;
+    }
+
+    private Map<String, Output> getOneOutput(JSONObject contentsObject, String expectedCode) {
+        Set<String> contents = contentsObject.keySet();
+        Map<String, Output> output = new LinkedHashMap<>();
+
+        for (String contentType : contents) {
+            JSONObject contentObject = contentsObject.getJSONObject(contentType);
+            JSONObject schema = contentObject.getJSONObject("schema");
+
+            String type = "";
+            if (schema.has("$ref")) {
+                String bodyTypeReference = schema.getString("$ref");
+                //leave only the name of the data type
+                type = bodyTypeReference.replaceAll("(.*)(?<=./)", "");
+            } else if (schema.has("type")) type = schema.getString("type");
+
+            Output oneOutput = new Output(type, expectedCode);
+            output.put(contentType, oneOutput);
+        }
+        return output;
     }
 }
