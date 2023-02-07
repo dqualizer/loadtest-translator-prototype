@@ -1,4 +1,4 @@
-package dq.rabbit;
+package dq.config.rabbit;
 
 /**
  * Constant values necessary for RabbitMQ

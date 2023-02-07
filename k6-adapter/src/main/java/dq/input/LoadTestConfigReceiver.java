@@ -1,8 +1,10 @@
 package dq.input;
 
-import dq.rabbit.Constant;
+import dq.adapter.AdaptationManager;
+import dq.config.rabbit.Constant;
 import dq.dqlang.loadtest.LoadTestConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoadTestConfigReceiver {
 
+    @Autowired
+    private AdaptationManager manager;
+
     @RabbitListener(queues = Constant.LOADTEST_QUEUE)
     public void receive(@Payload LoadTestConfig loadTestConfig) {
-        System.out.println("CONFIGURATION RECEIVED: " + loadTestConfig);
+
+        manager.start(loadTestConfig);
     }
 }

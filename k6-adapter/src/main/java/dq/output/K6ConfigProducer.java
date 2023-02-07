@@ -1,7 +1,7 @@
 package dq.output;
 
 import dq.dqlang.k6.K6Config;
-import dq.rabbit.Constant;
+import dq.config.rabbit.Constant;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

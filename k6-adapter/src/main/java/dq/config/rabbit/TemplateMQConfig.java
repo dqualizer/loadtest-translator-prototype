@@ -1,4 +1,4 @@
-package dq.rabbit;
+package dq.config.rabbit;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

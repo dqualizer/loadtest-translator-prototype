@@ -1,0 +1,12 @@
+{
+  "accuracy": {
+    "min": 2,
+    "max": 10
+  },
+  "response_time": {
+    "satisfied": 1200,
+    "tolerated": 2400,
+    "frustrated": 4800,
+    "aggregation": "mean"
+  }
+}

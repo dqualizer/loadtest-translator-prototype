@@ -1,4 +1,4 @@
-package dq.rabbit;
+package dq.config.rabbit;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
