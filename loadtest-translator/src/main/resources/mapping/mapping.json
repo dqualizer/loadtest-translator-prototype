@@ -34,13 +34,12 @@
                         "field": "/kinoapp/{version}/open",
                         "operation": "GET",
                         "path_variables": {
-                            "kinoapp_version": "dq/kinoapp/versions.csv"
+                            "version": "dq/kinoapp/versions.csv"
                         },
-                        "parameter": {
-                        },
+                        "parameter": {},
                         "payload": {
-                            "valid_nutzer": "dq/kinoapp/open/valid_nutzer.csv",
-                            "invalid_nutzer": "dq/kinoapp/open/invalid_nutzer.csv"
+                            "valid_nutzer": "dq/kinoapp/open/valid_nutzer.json",
+                            "invalid_nutzer": "dq/kinoapp/open/invalid_nutzer.json"
                         },
                         "responses": [
                             {

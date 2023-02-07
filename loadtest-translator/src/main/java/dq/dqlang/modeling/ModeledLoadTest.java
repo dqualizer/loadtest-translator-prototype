@@ -13,6 +13,7 @@ public class ModeledLoadTest {
     private Artifact artifact;
     private String description;
     private Stimulus stimulus;
+    private Parametrization parametrization;
     @JsonProperty("response_measure")
     private ResponseMeasure responseMeasure;
     @JsonProperty("result_metrics")

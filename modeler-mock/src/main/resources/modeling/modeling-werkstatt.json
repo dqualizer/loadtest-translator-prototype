@@ -17,6 +17,13 @@
                     "time_to_highest_load": "FAST",
                     "accuracy": 80
                 },
+                "parametrization": {
+                    "path_variables": {
+                        "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
+                    },
+                    "parameter": {},
+                    "payload": {}
+                },
                 "response_measure": {
                     "response_time": "SATISFIED"
                 },
@@ -37,6 +44,15 @@
                     "type_of_increase": "QUADRATIC",
                     "accuracy": 70
                 },
+                "parametrization": {
+                    "path_variables": {},
+                    "parameter": {
+                        "headers": "auftrag/allgemein/headers.json"
+                    },
+                    "payload": {
+                        "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json"
+                    }
+                },
                 "response_measure": {
                     "response_time": "SATISFIED"
                 },
@@ -52,6 +68,17 @@
                     "load_profile": "CONSTANT_LOAD",
                     "base_load": "MEDIUM",
                     "accuracy": 60
+                },
+                "parametrization": {
+                    "path_variables": {
+                        "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
+                    },
+                    "parameter": {
+                        "headers": "auftrag/allgemein/headers.json"
+                    },
+                    "payload": {
+                        "auftragstatus": "auftrag/auftragsstatus/auftragstatus.json"
+                    }
                 },
                 "response_measure": {
                     "response_time": "TOLERATED"
