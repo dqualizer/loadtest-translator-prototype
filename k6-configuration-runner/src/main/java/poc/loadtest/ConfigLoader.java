@@ -14,7 +14,7 @@ import java.net.http.HttpResponse.*;
 public class ConfigLoader {
 
     public String loadConfig() throws URISyntaxException, IOException, InterruptedException {
-        String serverURI = "http://127.0.0.1:8080/config";
+        String serverURI = "http://127.0.0.1:9010/config";
         URI uri = new URI(serverURI);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)

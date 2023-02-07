@@ -9,7 +9,7 @@ services:
       - ./docker-output:/app/output
       - ./docker-config/grafana/my-dashboards:/docker-config/grafana/my-dashboards
     ports:
-      - "8080:8080"
+      - "9010:9010"
     environment:
       - OTEL_HOST=otel-collector
     depends_on:

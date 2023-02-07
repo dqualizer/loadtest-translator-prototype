@@ -1,6 +1,6 @@
 {
   "name": "Script with two scenarios",
-  "baseURL": "http://127.0.0.1:8080/books",
+  "baseURL": "http://127.0.0.1:9010/books",
   "options": {
     "scenarios": {
       "scenario_1": {
