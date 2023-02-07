@@ -2,8 +2,8 @@
     "version": 1.0,
     "context": "werkstattauftrag",
     "server_info": [
-        {   
-            "host": "http://127.0.0.1:9000",
+        {
+            "host": "localhost:9000",
             "environment": "TEST"
         }
     ],
@@ -49,10 +49,12 @@
                         "operation": "POST",
                         "path_variables": {},
                         "parameter": {
-                            "headers": "auftrag/allgemein/headers.json"
+                            "headers": "auftrag/allgemein/headers.json",
+                            "authorization": "auftrag/allgemein/authorization.json"
                         },
                         "payload": {
-                            "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json"
+                            "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json",
+                            "auftraggeber_2023": "auftrag/auftraggeber/2023/auftraggeber.json"
                         },
                         "responses": [
                             {

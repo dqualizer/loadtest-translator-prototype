@@ -12,6 +12,6 @@ public class Parametrization {
 
     @JsonProperty("path_variables")
     private Map<String, String> pathVariables;
-    private Map<String, String> parameter;
-    private Map<String, String> payload;
+    private Map<String, String> parameter;  //Size should be 1
+    private Map<String, String> payload;    //Size should be 1
 }

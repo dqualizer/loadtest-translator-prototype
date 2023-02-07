@@ -71,7 +71,8 @@
                 "parametrization": {
                     "path_variables": {},
                     "parameter": {},
-                    "payload": {}},
+                    "payload": {}
+                },
                 "response_measure": {
                     "response_time": "TOLERATED"
                 },
