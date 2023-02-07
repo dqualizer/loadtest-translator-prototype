@@ -41,5 +41,6 @@ public class AdaptationManager {
         APISchema apiSchema = adapter.adapt(openAPISchema);
         logger.info("### OPENAPI SCHEMA ADAPTED ###");
         producer.produce(apiSchema);
+        logger.info("### DQLANG API SCHEMA PRODUCED ###");
     }
 }
