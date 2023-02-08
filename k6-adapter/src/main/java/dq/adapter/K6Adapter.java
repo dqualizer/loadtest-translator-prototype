@@ -1,20 +1,17 @@
 package dq.adapter;
 
-import dq.dqlang.constants.Accuracy;
 import dq.dqlang.constants.LoadTestConstants;
-import dq.dqlang.constants.ResponseTime;
+import dq.dqlang.constants.accuracy.LoadPeak;
+import dq.dqlang.constants.accuracy.Repetition;
 import dq.dqlang.k6.K6Config;
 import dq.dqlang.k6.K6LoadTest;
 import dq.dqlang.k6.options.Options;
-import dq.dqlang.k6.request.Checks;
 import dq.dqlang.k6.request.Request;
 import dq.dqlang.loadtest.*;
-import dq.exception.UnknownResponseTimeTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashSet;
-import java.util.Map;
 
 @Component
 public class K6Adapter {
@@ -23,6 +20,8 @@ public class K6Adapter {
     private ConstantsLoader constantsLoader;
     @Autowired
     private EndpointAdapter endpointAdapter;
+    @Autowired
+    private StimulusAdapter stimulusAdapter;
 
     public K6Config adapt(LoadTestConfig loadTestConfig) {
         String name = loadTestConfig.getContext();
@@ -32,11 +31,11 @@ public class K6Adapter {
 
         for(LoadTest loadTest : loadTests) {
             Stimulus stimulus = loadTest.getStimulus();
+            int repetition = this.calculateRepetition(stimulus);
+            Options options = stimulusAdapter.adaptStimulus(stimulus);
+
             Endpoint endpoint = loadTest.getEndpoint();
             ResponseMeasure responseMeasure = loadTest.getResponseMeasure();
-
-            int repetition = this.calculateRepetition(stimulus);
-            Options options = this.adaptStimulus(stimulus);
             Request request = endpointAdapter.adaptEndpoint(endpoint, responseMeasure);
 
             K6LoadTest k6LoadTest = new K6LoadTest(repetition, options, request);
@@ -47,22 +46,18 @@ public class K6Adapter {
         return k6Config;
     }
 
-    private Options adaptStimulus(Stimulus stimulus) {
-
-
-    }
-
     private int calculateRepetition(Stimulus stimulus) {
         String loadProfile = stimulus.getLoadProfile();
-        if(!loadProfile.equals("LOAD_PEAK")) return 1;
+        if(loadProfile.equals("CONSTANT_LOAD")) return 1;
+
+        LoadTestConstants constants = constantsLoader.load();
+        Repetition repetitionConstants = constants.getAccuracy().getRepetition();
 
         int accuracy = stimulus.getAccuracy();
-        LoadTestConstants constants = constantsLoader.load();
-        Accuracy constantsAccuracy = constants.getAccuracy();
-        int max = constantsAccuracy.getMax();
-        int min = constantsAccuracy.getMin();
+        int max = repetitionConstants.getMax();
+        int min = repetitionConstants.getMin();
 
-        int repetition = max * (accuracy/100);
+        int repetition = (int)(max * (accuracy/100.0));
         return Math.max(repetition, min);
     }
 }

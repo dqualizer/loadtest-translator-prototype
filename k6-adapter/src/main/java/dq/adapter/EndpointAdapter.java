@@ -1,12 +1,13 @@
 package dq.adapter;
 
+import dq.dqlang.constants.LoadTestConstants;
 import dq.dqlang.constants.ResponseTime;
 import dq.dqlang.k6.request.Checks;
 import dq.dqlang.k6.request.Request;
 import dq.dqlang.loadtest.Endpoint;
 import dq.dqlang.loadtest.Response;
 import dq.dqlang.loadtest.ResponseMeasure;
-import dq.exception.UnknownResponseTimeTerm;
+import dq.exception.UnknownTermException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +32,9 @@ public class EndpointAdapter {
         Map<String, String> params = endpoint.getParameter();
         Map<String, String> payload = endpoint.getPayload();
 
-        String requestDuration = this.getRequestDuration(responseMeasure);
+        int duration = this.getDuration(responseMeasure);
         LinkedHashSet<Integer> statusCodes = this.getStatusCodes(endpoint);
-        Checks checks = new Checks(statusCodes, requestDuration);
+        Checks checks = new Checks(statusCodes, duration);
 
         return new Request(path, type, pathVariables, params, payload, checks);
     }
@@ -63,20 +64,19 @@ public class EndpointAdapter {
         return markedPathVariables;
     }
 
-    private String getRequestDuration(ResponseMeasure responseMeasure) {
+    private int getDuration(ResponseMeasure responseMeasure) {
+        LoadTestConstants constants = constantsLoader.load();
+        ResponseTime responseTime = constants.getResponseTime();
+
         String responseTimeTerm = responseMeasure.getResponseTime();
-        ResponseTime responseTime = constantsLoader.load().getResponseTime();
         int duration;
         switch (responseTimeTerm) {
             case "SATISFIED" -> duration = responseTime.getSatisfied();
             case "TOLERATED" -> duration = responseTime.getTolerated();
             case "FRUSTRATED" -> duration = responseTime.getFrustrated();
-            default -> throw new UnknownResponseTimeTerm(responseTimeTerm);
+            default -> throw new UnknownTermException(responseTimeTerm);
         }
-
-        String aggregation = responseTime.getAggregation();
-        String requestDuration = aggregation + "<" + duration;
-        return requestDuration;
+        return duration;
     }
 
     private LinkedHashSet<Integer> getStatusCodes(Endpoint endpoint) {

@@ -1,7 +1,7 @@
 package dq.dqlang;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dq.dqlang.k6.K6Config;
+import dq.dqlang.constants.LoadTestConstants;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -11,19 +11,19 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class K6ConfigTest {
+public class LoadTestConstantsTest {
 
-    private final String file = "k6/k6Config-werkstatt.json";
+    private final String file = "constants.json";
 
     @Test
     void objectMapperDoesNotThrowException() throws IOException {
-        String configJSON = this.loadK6Config(file);
+        String constantsJSON = this.loadConstants(file);
         ObjectMapper objectMapper = new ObjectMapper();
 
-        assertDoesNotThrow(() -> objectMapper.readValue(configJSON, K6Config.class));
+        assertDoesNotThrow(() -> objectMapper.readValue(constantsJSON, LoadTestConstants.class));
     }
 
-    private String loadK6Config(String filePath) throws IOException {
+    private String loadConstants(String filePath) throws IOException {
         String resources = this.getResources();
         String absolutePath = resources + filePath;
         return Files.readString(Paths.get(absolutePath));

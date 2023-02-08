@@ -1,17 +1,5 @@
 version: "3.9"
 services:
-  loadtest-translator:
-    build:
-      context: loadtest-translator
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_RABBITMQ_HOST=rabbit
-    depends_on:
-      rabbit:
-        condition: service_healthy
-
   modeler-mock:
     build:
       context: modeler-mock
@@ -26,6 +14,18 @@ services:
       loadtest-translator:
         condition: service_started
 
+  loadtest-translator:
+    build:
+      context: loadtest-translator
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
   k6-adapter:
     build:
       context: k6-adapter
@@ -37,8 +37,6 @@ services:
     depends_on:
       rabbit:
         condition: service_healthy
-      loadtest-translator:
-        condition: service_started
 
   rabbit:
     container_name: "thesis-rabbit"

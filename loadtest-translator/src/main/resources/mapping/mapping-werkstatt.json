@@ -3,7 +3,7 @@
     "context": "werkstattauftrag",
     "server_info": [
         {
-            "host": "localhost:9000",
+            "host": "http://127.0.0.1:9000",
             "environment": "TEST"
         }
     ],

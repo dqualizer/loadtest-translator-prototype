@@ -10,5 +10,4 @@ public class ResponseTime {
     private int satisfied;
     private int tolerated;
     private int frustrated;
-    private String aggregation;
 }

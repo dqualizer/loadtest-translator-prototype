@@ -1,6 +1,7 @@
 package dq.dqlang.constants;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dq.dqlang.constants.accuracy.Accuracy;
 import lombok.Getter;
 import lombok.ToString;
 

@@ -1,12 +1,12 @@
-package dq.dqlang.constants;
+package dq.dqlang.constants.accuracy;
 
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class Accuracy {
+public class Repetition {
 
-    private int max;
     private int min;
+    private int max;
 }

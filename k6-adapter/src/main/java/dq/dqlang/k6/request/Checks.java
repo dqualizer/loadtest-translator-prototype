@@ -16,6 +16,6 @@ public class Checks {
 
     @JsonProperty("status_codes")
     private LinkedHashSet<Integer> statusCodes;
-    @JsonProperty("http_req_duration")
-    private String requestDuration;
+    @JsonProperty("duration")
+    private int duration;
 }
