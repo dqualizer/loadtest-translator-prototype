@@ -34,11 +34,8 @@ public class K6Adapter {
             Stimulus stimulus = loadTest.getStimulus();
             Endpoint endpoint = loadTest.getEndpoint();
             ResponseMeasure responseMeasure = loadTest.getResponseMeasure();
-            String loadProfile = stimulus.getLoadProfile();
-            int repetition = 1;
-            if(loadProfile.equals("LOAD_PEAK"))
-                repetition = this.calculateRepetition(stimulus.getAccuracy());
 
+            int repetition = this.calculateRepetition(stimulus);
             Options options = this.adaptStimulus(stimulus);
             Request request = endpointAdapter.adaptEndpoint(endpoint, responseMeasure);
 
@@ -51,10 +48,15 @@ public class K6Adapter {
     }
 
     private Options adaptStimulus(Stimulus stimulus) {
-        //TODO
+
+
     }
 
-    private int calculateRepetition(int accuracy) {
+    private int calculateRepetition(Stimulus stimulus) {
+        String loadProfile = stimulus.getLoadProfile();
+        if(!loadProfile.equals("LOAD_PEAK")) return 1;
+
+        int accuracy = stimulus.getAccuracy();
         LoadTestConstants constants = constantsLoader.load();
         Accuracy constantsAccuracy = constants.getAccuracy();
         int max = constantsAccuracy.getMax();

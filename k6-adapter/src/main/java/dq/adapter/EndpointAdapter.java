@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class EndpointAdapter {
@@ -31,12 +35,32 @@ public class EndpointAdapter {
         LinkedHashSet<Integer> statusCodes = this.getStatusCodes(endpoint);
         Checks checks = new Checks(statusCodes, requestDuration);
 
-        Request request = new Request(path, type, pathVariables, params, payload, checks);
-        return request;
+        return new Request(path, type, pathVariables, params, payload, checks);
     }
 
+    /**
+     * At first the method finds all path variables inside the field with the help of a regex pattern.
+     * The pattern is looking for text that is enclosed by curly brackets {}.
+     * Those variables are saved inside a list, including the brackets. Duplicates will be combined to one variable.
+     * After that a "$"-symbol will be added to all found variables inside the field
+     *
+     * @param field Path with unmarked variables
+     * @return Path with marked variables, for example "{id}" turns into "${id}"
+     */
     private String markPathVariables(String field) {
-        //TODO
+        Pattern pattern = Pattern.compile("\\{.*?}");
+        Matcher matcher = pattern.matcher(field);
+        List<String> variables = new LinkedList<>();
+
+        while (matcher.find()) {
+            String foundVariable = matcher.group();
+            variables.add(foundVariable);
+        }
+
+        String markedPathVariables = variables.stream()
+                .distinct()
+                .reduce(field, (path, variable) -> path.replace(variable, "$"+ variable));
+        return markedPathVariables;
     }
 
     private String getRequestDuration(ResponseMeasure responseMeasure) {
