@@ -9,7 +9,7 @@
           "scenario": {
             "executor": "constant-vus",
             "vus": 10,
-            "duration": "30s"
+            "duration": 30000
           }
         }
       },
@@ -27,8 +27,8 @@
           "valid_nutzer": "dq/kinoapp/open/valid_nutzer.csv"
         },
         "checks": {
-          "status": [200, 404],
-          "http_req_duration": "mean<200"
+          "status_codes": [200, 404],
+          "duration": 200
         }
       }
     }

@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build OpenAPI-Adapter with Maven
-      run: mvn -B package --file ./openapi-adatper/pom.xml
+      run: mvn -B package --file ./openapi-adapter/pom.xml

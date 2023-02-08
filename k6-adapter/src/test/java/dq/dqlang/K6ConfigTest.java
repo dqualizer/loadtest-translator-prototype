@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class K6ConfigTest {
 
-    private final String file = "k6/k6Config-werkstatt.json";
+    private final String file = "k6Config.json";
 
     @Test
     void objectMapperDoesNotThrowException() throws IOException {

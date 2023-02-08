@@ -24,14 +24,13 @@
       "low": 10,
       "medium": 20,
       "high": 40,
-      "min_duration": 1,
-      "max_duration": 600
+      "min_duration": 1000,
+      "max_duration": 600000
     }
   },
   "response_time": {
-    "satisfied": "1.2s",
-    "tolerated": "2.4s",
-    "frustrated": "4.8s",
-    "aggregation": "mean"
+    "satisfied": 1200,
+    "tolerated": 2400,
+    "frustrated": 4800
   }
 }
