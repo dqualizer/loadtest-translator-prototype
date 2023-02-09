@@ -23,8 +23,8 @@
                 }
             },
             "request": {
-                "type": "/auftrag/${auftragsnummer}",
-                "path": "GET",
+                "type": "GET",
+                "path": "/auftrag/${auftragsnummer}",
                 "params": {},
                 "payload": {},
                 "checks": {
@@ -71,8 +71,8 @@
                 }
             },
             "request": {
-                "type": "/auftrag/new",
-                "path": "POST",
+                "type": "POST",
+                "path": "/auftrag/new",
                 "params": {
                     "headers": "auftrag/allgemein/headers.json"
                 },
@@ -100,8 +100,8 @@
                 }
             },
             "request": {
-                "type": "/auftrag/${auftragsnummer}",
-                "path": "PUT",
+                "type": "PUT",
+                "path": "/auftrag/${auftragsnummer}",
                 "params": {
                     "headers": "auftrag/allgemein/headers.json"
                 },

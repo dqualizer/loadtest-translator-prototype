@@ -36,7 +36,7 @@ public class EndpointAdapter {
         LinkedHashSet<Integer> statusCodes = this.getStatusCodes(endpoint);
         Checks checks = new Checks(statusCodes, duration);
 
-        return new Request(path, type, pathVariables, params, payload, checks);
+        return new Request(type, path, pathVariables, params, payload, checks);
     }
 
     /**
