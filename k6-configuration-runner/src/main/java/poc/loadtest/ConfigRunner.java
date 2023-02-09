@@ -7,6 +7,7 @@ import poc.dqlang.Config;
 import poc.dqlang.LoadTest;
 import poc.loadtest.exception.RunnerFailedException;
 import poc.loadtest.mapper.ScriptMapper;
+import poc.util.HostRetriever;
 import poc.util.ProcessLogger;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class ConfigRunner {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     @Autowired
     private PathConfig paths;
+    @Autowired
+    private HostRetriever hostRetriever;
     @Autowired
     private ScriptMapper mapper;
     @Autowired
@@ -38,8 +41,11 @@ public class ConfigRunner {
         }
     }
 
-    private void run(Config config) throws IOException {
-        String baseURL = config.getBaseURL();
+    private void run(Config config) throws IOException, InterruptedException {
+        String localBaseURL = config.getBaseURL();
+        //If config-runner runs inside docker, localhost can´t be used
+        String baseURL = localBaseURL.replace("127.0.0.1", hostRetriever.getHost());
+
         LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
         int testCounter = 0;
 
@@ -52,16 +58,18 @@ public class ConfigRunner {
             int runCounter = 0;
 
             while (runCounter < repetition) {
-                this.runTest(testCounter, runCounter);
+                this.runTest(scriptPath, testCounter, runCounter);
                 runCounter++;
             }
             testCounter++;
         }
     }
 
-    private void runTest(int testCounter, int runCounter) {
+    private void runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
+        String command = ".\\k6.exe run " + scriptPath;
+        Process process = Runtime.getRuntime().exec(command);
 
         String loggingPath = paths.getLogging(testCounter, runCounter);
-        //processLogger.log(process, loggingPath);
+        processLogger.log(process, loggingPath);
     }
 }

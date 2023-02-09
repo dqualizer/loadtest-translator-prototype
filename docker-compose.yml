@@ -1,5 +1,13 @@
 version: "3.9"
 services:
+  ddd-autohaus:
+    container_name: "thesis-ddd-werkstatt"
+    build:
+      context: ddd-autohaus-tactical-design-werkstattauftrag
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+
   modeler-mock:
     build:
       context: modeler-mock
@@ -12,6 +20,8 @@ services:
       rabbit:
         condition: service_healthy
       loadtest-translator:
+        condition: service_started
+      ddd-autohaus:
         condition: service_started
 
   loadtest-translator:
@@ -37,6 +47,27 @@ services:
     depends_on:
       rabbit:
         condition: service_healthy
+
+  config-runner:
+    container_name: "k6-configuration-runner"
+    build:
+      context: k6-configuration-runner
+      dockerfile: Dockerfile
+    volumes:
+      - ./k6-configuration-runner/docker-output:/app/poc/logging
+      - ./k6-configuration-runner/docker-config/grafana/my-dashboards:/docker-config/grafana/my-dashboards
+    ports:
+      - "9010:9010"
+    env_file:
+      - ./env/.env
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+      - API_HOST=ddd-autohaus
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      influxdb:
+        condition: service_started
 
   rabbit:
     container_name: "thesis-rabbit"

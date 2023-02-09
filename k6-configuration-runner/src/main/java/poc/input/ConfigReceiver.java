@@ -37,7 +37,7 @@ public class ConfigReceiver {
                 "    \"baseURL\": \"http://127.0.0.1:9000\",\n" +
                 "    \"loadTests\": [\n" +
                 "        {\n" +
-                "            \"repetition\": 8,\n" +
+                "            \"repetition\": 2,\n" +
                 "            \"options\": {\n" +
                 "                \"scenarios\": {\n" +
                 "                    \"scenario\": {\n" +
@@ -45,11 +45,11 @@ public class ConfigReceiver {
                 "                        \"startVUs\": 0,\n" +
                 "                        \"stages\": [\n" +
                 "                            {\n" +
-                "                                \"duration\": \"5m\",\n" +
+                "                                \"duration\": \"10s\",\n" +
                 "                                \"target\": 0\n" +
                 "                            },\n" +
                 "                            {\n" +
-                "                                \"duration\": \"2m\",\n" +
+                "                                \"duration\": \"5s\",\n" +
                 "                                \"target\": 40\n" +
                 "                            }\n" +
                 "                        ]\n" +
@@ -73,7 +73,7 @@ public class ConfigReceiver {
                 "            }\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"repetition\": 7,\n" +
+                "            \"repetition\": 2,\n" +
                 "            \"options\": {\n" +
                 "                \"scenarios\": {\n" +
                 "                    \"scenario\": {\n" +
@@ -81,23 +81,23 @@ public class ConfigReceiver {
                 "                        \"startVUs\": 0,\n" +
                 "                        \"stages\": [\n" +
                 "                            {\n" +
-                "                                \"duration\": \"1m\",\n" +
-                "                                \"target\": 10\n" +
+                "                                \"duration\": \"2s\",\n" +
+                "                                \"target\": 1\n" +
                 "                            },\n" +
                 "                            {\n" +
-                "                                \"duration\": \"1m\",\n" +
-                "                                \"target\": 40\n" +
+                "                                \"duration\": \"2s\",\n" +
+                "                                \"target\": 4\n" +
                 "                            },\n" +
                 "                            {\n" +
-                "                                \"duration\": \"1m\",\n" +
-                "                                \"target\": 90\n" +
+                "                                \"duration\": \"2s\",\n" +
+                "                                \"target\": 9\n" +
                 "                            },\n" +
                 "                            {\n" +
-                "                                \"duration\": \"1m\",\n" +
-                "                                \"target\": 160\n" +
+                "                                \"duration\": \"2s\",\n" +
+                "                                \"target\": 16\n" +
                 "                            },\n" +
                 "                            {\n" +
-                "                                \"duration\": \"1m\",\n" +
+                "                                \"duration\": \"2s\",\n" +
                 "                                \"target\": 0\n" +
                 "                            }\n" +
                 "                        ]\n" +
@@ -129,7 +129,7 @@ public class ConfigReceiver {
                 "                    \"scenario\": {\n" +
                 "                        \"executor\": \"constant-vus\",\n" +
                 "                        \"vus\": 20,\n" +
-                "                        \"duration\": 360000\n" +
+                "                        \"duration\": 3600\n" +
                 "                    }\n" +
                 "                }\n" +
                 "            },\n" +

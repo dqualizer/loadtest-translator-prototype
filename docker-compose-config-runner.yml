@@ -1,0 +1,70 @@
+version: '3.9'
+services:
+  config-runner:
+    container_name: "k6-configuration-runner"
+    build:
+      context: k6-configuration-runner
+      dockerfile: Dockerfile
+    volumes:
+      - ./k6-configuration-runner/docker-output:/app/poc/logging
+      - ./k6-configuration-runner/docker-config/grafana/my-dashboards:/docker-config/grafana/my-dashboards
+    ports:
+      - "9010:9010"
+    env_file:
+      - ./env/.env
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+      - API_HOST=ddd-autohaus
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      influxdb:
+        condition: service_started
+      ddd-autohaus:
+        condition: service_started
+
+  ddd-autohaus:
+    container_name: "thesis-ddd-werkstatt"
+    build:
+      context: ddd-autohaus-tactical-design-werkstattauftrag
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+
+  influxdb:
+    image: influxdb:latest
+    container_name: "thesis-influx"
+    ports:
+      - "8086:8086"
+    env_file:
+      - ./env/.env
+
+  grafana:
+    image: grafana/grafana:9.1.8
+    container_name: "thesis-grafana"
+    volumes:
+      - ./k6-configuration-runner/docker-config/grafana/provisioning:/usr/share/grafana/custom/
+      - ./k6-configuration-runner/docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
+    ports:
+      - "3030:3000"
+    env_file:
+      - ./env/.env
+    environment:
+      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
+    depends_on:
+      - influxdb
+
+  rabbit:
+    container_name: "thesis-rabbitmq"
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 3s
+      timeout: 10s
+      retries: 5
+      start_period: 3s
