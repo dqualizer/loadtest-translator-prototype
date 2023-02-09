@@ -1,18 +1,21 @@
 package poc.config;
 
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class PathConfig {
 
-    private final String script = "poc/scripts/";
-    private final String logging = "poc/output/logging.txt";
+    private final String script = "poc/scripts/createdScript";
+    private final String logging = "poc/logging/logging";
     private final String resources = getResourcePath();
 
+    public String getScript(int counter) {
+        return resources + script + counter + ".js";
+    }
 
-    public String getScriptFolder() { return resources + script; }
-
-    public String getLogging() { return resources + logging; }
+    public String getLogging(int counter1, int counter2) {
+        return resources + logging + counter1 + counter2 + ".txt";
+    }
 
     public String getResourcePath() {
         return this.getClass().getClassLoader()

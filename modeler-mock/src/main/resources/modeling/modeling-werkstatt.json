@@ -77,7 +77,7 @@
                         "headers": "auftrag/allgemein/headers.json"
                     },
                     "payload": {
-                        "auftragstatus": "auftrag/auftragsstatus/auftragstatus.json"
+                        "auftragstatus": "auftrag/auftragsstatus/auftragsstatus.json"
                     }
                 },
                 "response_measure": {

@@ -16,4 +16,4 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 COPY --from=k6 /usr/bin/k6 /usr/bin/k6
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","poc.JavaK6Application"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","poc.ConfigRunnerApplication"]

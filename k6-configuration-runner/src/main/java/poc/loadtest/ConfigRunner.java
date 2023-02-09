@@ -5,9 +5,13 @@ import org.springframework.stereotype.Component;
 import poc.config.PathConfig;
 import poc.dqlang.Config;
 import poc.dqlang.LoadTest;
+import poc.loadtest.exception.RunnerFailedException;
+import poc.loadtest.mapper.ScriptMapper;
 import poc.util.ProcessLogger;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Component
@@ -25,17 +29,39 @@ public class ConfigRunner {
 
     public void start(Config config) {
         logger.info("### LOAD TEST CONFIGURATION RECEIVED ###");
-        String baseURL = config.getBaseURL();
-        LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
-
-        for(LoadTest loadTest : loadTests) {
-            String script = mapper.getScript(baseURL, loadTest);
-            writer.write(script);
-            this.runTest();
+        try {
+            this.run(config);
+        } catch (Exception e) {
+            logger.severe("### LOAD TEST FAILED ###");
+            e.printStackTrace();
+            throw new RunnerFailedException(e.getMessage());
         }
     }
 
-    private void runTest() {
+    private void run(Config config) throws IOException {
+        String baseURL = config.getBaseURL();
+        LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
+        int testCounter = 0;
 
+        for(LoadTest loadTest : loadTests) {
+            List<String> script = mapper.getScript(baseURL, loadTest);
+            String scriptPath = paths.getScript(testCounter);
+            writer.write(script, scriptPath);
+
+            int repetition = loadTest.getRepetition();
+            int runCounter = 0;
+
+            while (runCounter < repetition) {
+                this.runTest(testCounter, runCounter);
+                runCounter++;
+            }
+            testCounter++;
+        }
+    }
+
+    private void runTest(int testCounter, int runCounter) {
+
+        String loggingPath = paths.getLogging(testCounter, runCounter);
+        //processLogger.log(process, loggingPath);
     }
 }
