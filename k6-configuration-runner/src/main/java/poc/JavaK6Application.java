@@ -8,6 +8,6 @@ public class JavaK6Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JavaK6Application.class, args);
-		System.out.println("##### TESTING COMPLETE #####");
+		System.out.println("##### LOAD TESTING COMPLETE #####");
 	}
 }

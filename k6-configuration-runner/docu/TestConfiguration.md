@@ -8,7 +8,7 @@ Every configuration needs the following keys:
 
 See below for further explanation.
 
-You can view an **example configuration** [here](../src/main/resources/config/grafanaConfig.json).
+You can view an **example configuration** [here](../src/main/resources/poc/config/grafanaConfig.json).
 
 ---
 ## baseURL
