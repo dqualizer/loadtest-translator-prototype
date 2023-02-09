@@ -19,7 +19,7 @@ public class MQConfig {
     public Queue modelerQueue() { return new Queue(Constant.QUEUE, false); }
 
     @Bean
-    public Binding configBinding(@Qualifier("modelerQueue") Queue queue,
+    public Binding modelerBinding(@Qualifier("modelerQueue") Queue queue,
                                  @Qualifier("modelerExchange") TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(Constant.KEY);
     }

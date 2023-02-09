@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 public class ModelingMQConfig {
 
     @Bean
-    public TopicExchange modelerExchange() { return new TopicExchange(Constant.MODELER_EXCHANGE); }
+    public TopicExchange modelingExchange() { return new TopicExchange(Constant.MODELER_EXCHANGE); }
 
     @Bean
-    public Queue modelerQueue() { return new Queue(Constant.MODELING_QUEUE, false); }
+    public Queue modelingQueue() { return new Queue(Constant.MODELING_QUEUE, false); }
 
     @Bean
-    public Binding configBinding(@Qualifier("modelerQueue") Queue queue,
-                                 @Qualifier("modelerExchange") TopicExchange exchange) {
+    public Binding modelingBinding(@Qualifier("modelingQueue") Queue queue,
+                                 @Qualifier("modelingExchange") TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(Constant.GET_KEY);
     }
 }

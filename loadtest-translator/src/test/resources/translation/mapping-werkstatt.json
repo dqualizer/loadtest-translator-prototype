@@ -26,7 +26,7 @@
                         "field": "/auftrag/{auftragsnummer}",
                         "operation": "GET",
                         "path_variables": {
-                            "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                            "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                         },
                         "parameter": {},
                         "payload": {},
@@ -49,10 +49,12 @@
                         "operation": "POST",
                         "path_variables": {},
                         "parameter": {
-                            "headers": "auftrag/allgemein/headers.json"
+                            "headers": "auftrag/allgemein/headers.json",
+                            "authorization": "auftrag/allgemein/authorization.json"
                         },
                         "payload": {
-                            "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json"
+                            "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json",
+                            "auftraggeber_2023": "auftrag/auftraggeber/2023/auftraggeber.json"
                         },
                         "responses": [
                             {
@@ -72,7 +74,7 @@
                         "field": "/auftrag/{auftragsnummer}",
                         "operation": "PUT",
                         "path_variables": {
-                            "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                            "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                         },
                         "parameter": {
                             "headers": "auftrag/allgemein/headers.json"

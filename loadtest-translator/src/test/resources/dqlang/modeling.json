@@ -16,6 +16,18 @@
                     "time_to_highest_load": "FAST",
                     "accuracy": 50
                 },
+                "parametrization": {
+                    "path_variables": {
+                        "version": "dq/kinoapp/versions.csv",
+                        "userId": "dq/kinoapp/userIds.csv"
+                    },
+                    "parameter": {
+                        "headers": "dq/kinoapp/headers.json"
+                    },
+                    "payload": {
+                        "valid_nutzer": "dq/kinoapp/open/valid_nutzer.json"
+                    }
+                },
                 "response_measure": {
                     "response_time": "SATISFIED"
                 },
@@ -36,6 +48,11 @@
                     "type_of_increase": "QUADRATIC",
                     "accuracy": 40
                 },
+                "parametrization": {
+                    "path_variables": {},
+                    "parameter": {},
+                    "payload": {}
+                },
                 "response_measure": {
                     "response_time": "SATISFIED"
                 },
@@ -50,6 +67,11 @@
                     "load_profile": "CONSTANT_LOAD",
                     "base_load": "MEDIUM",
                     "accuracy": 80
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "parameter": {},
+                    "payload": {}
                 },
                 "response_measure": {
                     "response_time": "TOLERATED"

@@ -18,5 +18,5 @@ public class Stimulus {
     private String typeOfIncrease;
     @JsonProperty("base_load")
     private String baseLoad;
-    private String accuracy;
+    private int accuracy;
 }

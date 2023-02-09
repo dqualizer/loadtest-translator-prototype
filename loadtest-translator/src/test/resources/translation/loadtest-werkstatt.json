@@ -23,15 +23,15 @@
                 "field": "/auftrag/{auftragsnummer}",
                 "operation": "GET",
                 "path_variables": {
-                "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                    "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                 },
                 "parameter": {},
                 "payload": {},
                 "responses": [
-                {
-                    "expected_code": 200,
-                    "type": "id8"
-                }
+                    {
+                        "expected_code": 200,
+                        "type": "id8"
+                    }
                 ]
             }
             },
@@ -85,7 +85,7 @@
                 "field": "/auftrag/{auftragsnummer}",
                 "operation": "PUT",
                 "path_variables": {
-                    "angelegte_auftrage": "auftrag/auftragsnummern/angelegt.json"
+                    "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                 },
                 "parameter": {
                     "headers": "auftrag/allgemein/headers.json"

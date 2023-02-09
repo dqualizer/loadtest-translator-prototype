@@ -23,15 +23,13 @@
         "field": "/kinoapp/{version}/open",
         "operation": "GET",
         "payload": {
-          "valid_nutzer": "dq/kinoapp/open/valid_nutzer.csv",
-          "invalid_nutzer": "dq/kinoapp/open/invalid_nutzer.csv"
+          "valid_nutzer": "dq/kinoapp/open/valid_nutzer.json"
         },
         "path_variables": {
-          "kinoapp_version": "dq/kinoapp/versions.csv"
+          "version": "dq/kinoapp/versions.csv"
         },
         "parameter": {
-          "headers": "dq/kinoapp/headers.csv",
-          "cookies": "dq/kinoapp/cookies.csv"
+          "headers": "dq/kinoapp/headers.json"
         },
         "responses": [
           {

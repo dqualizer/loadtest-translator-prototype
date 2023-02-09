@@ -1,0 +1,36 @@
+{
+  "name": "context",
+  "baseURL": "http://127.0.0.1:8080/books",
+  "loadTests": [
+    {
+      "repetition": 5,
+      "options": {
+        "scenarios": {
+          "scenario": {
+            "executor": "constant-vus",
+            "vus": 10,
+            "duration": 30000
+          }
+        }
+      },
+      "request": {
+        "type": "GET",
+        "path": "/kinoapp/${version}/open",
+        "path_variables": {
+          "version": "dq/kinoapp/versions.csv",
+          "userId": "dq/kinoapp/userIds.csv"
+        },
+        "params": {
+          "headers": "dq/kinoapp/headers.json"
+        },
+        "payload": {
+          "valid_nutzer": "dq/kinoapp/open/valid_nutzer.csv"
+        },
+        "checks": {
+          "status_codes": [200, 404],
+          "duration": 200
+        }
+      }
+    }
+  ]
+}

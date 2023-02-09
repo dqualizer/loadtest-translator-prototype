@@ -26,9 +26,9 @@ public class TranslationManager {
         String context = modeling.getContext();
         Mapping mapping = mappingLoader.load(context);
         logger.info("### MAPPING SUCESSFULLY LOADED ###");
-
         LoadTestConfig loadTestConfig = translator.translate(modeling, mapping);
         logger.info("### TRANSLATION FINISHED ###");
         loadTestProducer.produce(loadTestConfig);
+        logger.info("### LOADTEST CONFIGURATION PRODUCED ###");
     }
 }

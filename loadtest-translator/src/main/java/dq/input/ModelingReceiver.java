@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Import the Modeling via RabbitMQ
+ * Imports the Modeling via RabbitMQ
  */
 @Component
 public class ModelingReceiver {
