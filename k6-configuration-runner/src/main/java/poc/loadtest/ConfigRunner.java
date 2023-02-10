@@ -61,7 +61,7 @@ public class ConfigRunner {
             while (runCounter < repetition) {
                 int exitValue = this.runTest(scriptPath, testCounter, runCounter);
                 runCounter++;
-                logger.info("### LOAD TEST " +testCounter+ "-" +runCounter+ "FINISHED WITH EXIT VALUE:" +exitValue+ " ###");
+                logger.info("### LOAD TEST " +testCounter+ "-" +runCounter+ " FINISHED WITH VALUE " +exitValue+ " ###");
             }
             testCounter++;
         }
