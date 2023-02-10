@@ -7,9 +7,15 @@ import org.springframework.stereotype.Component;
 public class HostRetriever {
 
     @Value("${api.host}")
-    private String host;
+    private String apiHost;
+    @Value("${influx.host}")
+    private String influxHost;
 
-    public String getHost() {
-        return this.host;
+    public String getAPIHost() {
+        return this.apiHost;
+    }
+
+    public String getInfluxHost() {
+        return this.influxHost;
     }
 }

@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -33,6 +33,7 @@
         "type": "influxdb",
         "uid": "P5697886F9CA74929"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -145,17 +146,8 @@
             "uid": "P5697886F9CA74929"
           },
           "hide": false,
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] =~ /${measurement:regex}/)\r\n  |> filter(fn: (r) => r[\"endpoint\"] =~ /${endpoint:regex}/)\r\n  |> filter(fn: (r) => r[\"http_method\"] =~ /${method:regex}/)\r\n  |> map(fn: (r) => ({ _value: r._value, _time: r._time, _field: r[\"http_method\"] + \" | \" + r[\"endpoint\"] }))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] =~ /${measurement:regex}/)\r\n  |> filter(fn: (r) => r[\"method\"] =~ /${method:regex}/)",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P5697886F9CA74929"
-          },
-          "hide": false,
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"thresholds\")\r\n  |> filter(fn: (r) => r[\"aggregation\"] == \"${aggregation}\")\r\n  |> filter(fn: (r) => r[\"threshold_type\"] == \"${measurement}\")\r\n  |> map(fn: (r) => ({ _value: r._value, _time: r._time, _field: \"${aggregation}\" }))",
-          "refId": "B"
         }
       ],
       "title": "Request Durations",
@@ -173,20 +165,17 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "min": -4,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "#EAB839",
-                "value": 0.8
-              },
-              {
-                "color": "dark-green",
-                "value": 0.9
+                "color": "red",
+                "value": 80
               }
             ]
           },
@@ -208,7 +197,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
           "fields": "",
           "values": false
@@ -222,11 +211,21 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"checks\")",
+          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"checks\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")",
           "refId": "A"
         }
       ],
       "title": "Checks Accuracy",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "reducers": [
+              "mean"
+            ]
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -262,16 +261,16 @@
       "id": 8,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "sum"
           ],
           "fields": "",
-          "limit": 3,
-          "values": true
+          "limit": 220,
+          "values": false
         },
         "textMode": "value"
       },
@@ -282,11 +281,22 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"http_reqs\")",
+          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"http_reqs\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")",
           "refId": "A"
         }
       ],
       "title": "Number of HTTP Requests",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "labelsToFields": false,
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -347,6 +357,17 @@
         }
       ],
       "title": "Number of Iterations",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "labelsToFields": false,
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -393,7 +414,7 @@
           ],
           "fields": "",
           "limit": 3,
-          "values": true
+          "values": false
         },
         "textMode": "value"
       },
@@ -410,66 +431,6 @@
       ],
       "title": "Average Iteration duration",
       "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P5697886F9CA74929"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 20,
-        "y": 10
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "limit": 3,
-          "values": true
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "9.1.8",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P5697886F9CA74929"
-          },
-          "query": "from(bucket: \"my-bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"max_load\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Maximum Load",
       "type": "stat"
     },
     {
@@ -554,7 +515,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"data_received_endpoint\")\r\n  |> filter(fn: (r) => r[\"endpoint\"] =~ /${endpoint:regex}/)\r\n    |> map(fn: (r) => ({ _value: r._value, _time: r._time, _field: r[\"endpoint\"] }))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"data_received_endpoint\")",
           "refId": "A"
         }
       ],
@@ -643,7 +604,7 @@
             "type": "influxdb",
             "uid": "P5697886F9CA74929"
           },
-          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"data_sent_endpoint\")\r\n  |> filter(fn: (r) => r[\"endpoint\"] =~ /${endpoint:regex}/)\r\n  |> map(fn: (r) => ({ _value: r._value, _time: r._time, _field: r[\"endpoint\"] }))",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"data_sent_endpoint\")\r\n  |> filter(fn: (r) => r[\"url\"] =~ /${url:regex}/)",
           "refId": "A"
         }
       ],
@@ -686,23 +647,23 @@
         "current": {
           "selected": true,
           "text": [
-            "http://127.0.0.1:8080/books/1"
+            "All"
           ],
           "value": [
-            "http://127.0.0.1:8080/books/1"
+            "$__all"
           ]
         },
         "datasource": {
           "type": "influxdb",
           "uid": "P5697886F9CA74929"
         },
-        "definition": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: v.bucket,\n    tag: \"endpoint\",\n    predicate: (r) => true,\n    start: -1d\n)",
+        "definition": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: v.bucket,\n    tag: \"url\",\n    predicate: (r) => true,\n    start: -1d\n)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
-        "name": "endpoint",
+        "name": "url",
         "options": [],
-        "query": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: v.bucket,\n    tag: \"endpoint\",\n    predicate: (r) => true,\n    start: -1d\n)",
+        "query": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: v.bucket,\n    tag: \"url\",\n    predicate: (r) => true,\n    start: -1d\n)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -723,13 +684,13 @@
           "type": "influxdb",
           "uid": "P5697886F9CA74929"
         },
-        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"http_method\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"method\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "method",
         "options": [],
-        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"http_method\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"method\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -738,9 +699,10 @@
       },
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "rate",
-          "value": "rate"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "influxdb",
@@ -761,9 +723,10 @@
       },
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "checks",
-          "value": "checks"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "influxdb",
@@ -790,8 +753,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Load_Test_Results",
-  "uid": "Mv6GOiv4z",
-  "version": 11,
+  "title": "Load_Test_Results_k6x",
+  "uid": "zfNOA7c4k",
+  "version": 20,
   "weekStart": ""
 }

@@ -2,7 +2,7 @@ version: '3.9'
 services:
   influxdb:
     image: influxdb:latest
-    container_name: "thesis-influx"
+    container_name: "thesis-influx-config-runner"
     ports:
       - "8086:8086"
     env_file:
@@ -10,7 +10,7 @@ services:
 
   grafana:
     image: grafana/grafana:9.1.8
-    container_name: "thesis-grafana"
+    container_name: "thesis-grafana-config-runner"
     volumes:
       - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
       - ./docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
@@ -24,3 +24,10 @@ services:
       - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
     depends_on:
       - influxdb
+
+  rabbit:
+    container_name: "thesis-rabbitmq-config-runner"
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"

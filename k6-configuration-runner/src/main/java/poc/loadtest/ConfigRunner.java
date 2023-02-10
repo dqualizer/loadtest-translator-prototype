@@ -44,7 +44,7 @@ public class ConfigRunner {
     private void run(Config config) throws IOException, InterruptedException {
         String localBaseURL = config.getBaseURL();
         //If config-runner runs inside docker, localhost can´t be used
-        String baseURL = localBaseURL.replace("127.0.0.1", hostRetriever.getHost());
+        String baseURL = localBaseURL.replace("127.0.0.1", hostRetriever.getAPIHost());
 
         LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
         int testCounter = 0;
@@ -66,7 +66,8 @@ public class ConfigRunner {
     }
 
     private void runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
-        String command = ".\\k6.exe run " + scriptPath;
+        String influxHost = hostRetriever.getInfluxHost();
+        String command = "k6-configuration-runner\\k6.exe run " + scriptPath + " --out xk6-influxdb=http://" + influxHost + ":8086";
         Process process = Runtime.getRuntime().exec(command);
 
         String loggingPath = paths.getLogging(testCounter, runCounter);
