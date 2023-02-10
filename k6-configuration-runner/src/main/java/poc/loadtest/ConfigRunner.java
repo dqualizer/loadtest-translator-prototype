@@ -35,7 +35,7 @@ public class ConfigRunner {
         try {
             this.run(config);
         } catch (Exception e) {
-            logger.severe("### LOAD TEST FAILED ###");
+            logger.severe("### LOAD TESTING FAILED ###");
             e.printStackTrace();
             throw new RunnerFailedException(e.getMessage());
         }
