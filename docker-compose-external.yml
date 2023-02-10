@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: "thesis-influx"
+    ports:
+      - "8086:8086"
+    env_file:
+      - ./env/.env
+
+  grafana:
+    image: grafana/grafana:9.1.8
+    container_name: "thesis-grafana"
+    volumes:
+      - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
+      - ./docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
+    ports:
+      - "3030:3000"
+    env_file:
+      - ./env/.env
+    environment:
+      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
+    depends_on:
+      - influxdb
+
+  rabbit:
+    container_name: "thesis-rabbitmq"
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"

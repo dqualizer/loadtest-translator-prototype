@@ -1,20 +1,6 @@
-# Read Me First
-The following was discovered as part of building this project:
+# Modeler-Mock
 
-* The original package name 'dq.modeler-mock' is invalid and this project uses 'dq.modelermock' instead.
+A mock of _**dqedit**_ that is used to produce a modeling.
 
-# Getting Started
-
-### Reference Documentation
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.2/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.0.2/maven-plugin/reference/html/#build-image)
-* [Spring for RabbitMQ](https://docs.spring.io/spring-boot/docs/3.0.2/reference/htmlsingle/#messaging.amqp)
-
-### Guides
-The following guides illustrate how to use some features concretely:
-
-* [Messaging with RabbitMQ](https://spring.io/guides/gs/messaging-rabbitmq/)
-
+The modeling is stored in [src/main/resources/modeling](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/modeler-mock/src/main/resources/modeling)
+and will be exported via RabbitMQ.

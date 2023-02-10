@@ -1,35 +1,23 @@
 package poc.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import poc.loadtest.exception.UnknownOutputTypeException;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class PathConfig {
 
-    @Value("${path.config:config/exampleConfig.json}")
-    private String config;
-    private final String script = "scripts/createdScript.js";
-    private final String outputCSV = "output/output.csv";
-    private final String outputJSON = "output/output.json";
-    private final String logging = "output/logging.txt";
+    private final String script = "poc/scripts/createdScript";
+    private final String logging = "poc/logging/logging";
     private final String resources = getResourcePath();
 
-    public String getConfig() { return resources + config; }
-
-    public String getScript() { return resources + script; }
-
-    public String getOutput(String outputType) {
-        return switch (outputType) {
-            case "json" -> resources + outputJSON;
-            case "csv" -> resources + outputCSV;
-            default -> throw new UnknownOutputTypeException(outputType);
-        };
+    public String getScript(int counter) {
+        return resources + script + counter + ".js";
     }
 
-    public String getLogging() { return resources + logging; }
+    public String getLogging(int counter1, int counter2) {
+        return resources + logging + counter1 + counter2 + ".txt";
+    }
 
-    private String getResourcePath() {
+    public String getResourcePath() {
         return this.getClass().getClassLoader()
                 .getResource("")
                 .getFile()

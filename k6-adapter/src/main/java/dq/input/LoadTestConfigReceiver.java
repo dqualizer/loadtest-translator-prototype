@@ -19,7 +19,6 @@ public class LoadTestConfigReceiver {
 
     @RabbitListener(queues = Constant.LOADTEST_QUEUE)
     public void receive(@Payload LoadTestConfig loadTestConfig) {
-
         manager.start(loadTestConfig);
     }
 }

@@ -1,55 +1,36 @@
 package poc.loadtest.mapper;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import poc.dqlang.request.Checks;
+import poc.dqlang.request.Request;
+
+import java.util.LinkedHashSet;
 
 @Component
-public class ChecksMapper implements K6Mapper {
+public class ChecksMapper implements k6Mapper {
 
     @Override
-    public String map(JSONObject request, int requestIndex) {
-        JSONObject checks = request.getJSONObject("checks");
-        String type = request.getString("type");
-        StringBuilder checkBuilder = new StringBuilder();
+    public String map(Request request) {
+        StringBuilder checksBuilder = new StringBuilder();
+        Checks checks = request.getChecks();
 
-        if(checks.has("status")) {
-            int status = checks.getInt("status");
-            String statusScript;
-            if(checks.has("OR-status")) {
-                int orStatus = checks.getInt("OR-status");
-                statusScript = String.format("\t'%s status was %s/%s': x => x.status && (x.status == %s || x.status == %s),%s",
-                        type, status, orStatus, status, orStatus, newLine);
-            }
-            else {
-                statusScript = String.format("\t'%s status was %s': x => x.status && x.status == %s,%s",
-                        type, status, status, newLine);
-            }
-            checkBuilder.append(statusScript);
-        }
-        if(checks.has("body")) {
-            JSONObject body = checks.getJSONObject("body");
+        int duration = checks.getDuration();
+        String durationScript = String.format("\t'Duration < %d': x => x.timings && x.timings.duration < %d,%s",
+                duration, duration, newLine);
+        checksBuilder.append(durationScript);
 
-            if(body.has("min-length")) {
-                int minLength = body.getInt("min-length");
-                String minLengthScript = String.format("\t'%s body size >= %d': x => x.body && x.body.length >= %d,%s",
-                        type, minLength, minLength, newLine);
-                checkBuilder.append(minLengthScript);
-            }
-            if(body.has("includes")) {
-                String includes = body.getString("includes");
-                String includesScript = String.format("\t'body includes %s': x => x.body && x.body.includes('%s'),%s",
-                        includes, includes, newLine);
-                checkBuilder.append(includesScript);
-            }
+        String type = request.getType();
+        LinkedHashSet<Integer> statusCodes = checks.getStatusCodes();
+        StringBuilder statusBuilder = new StringBuilder();
+        for(int status: statusCodes) {
+            String statusBooleanScript = String.format("x.status == %d || ", status);
+            statusBuilder.append(statusBooleanScript);
         }
-        if(checks.has("error_code")) {
-            int errorCode= checks.getInt("error_code");
-            String errorCodeScript = String.format("\t'error_code was %d': x => x.error_code == %d,%s",
-                    errorCode, errorCode, newLine);
-            checkBuilder.append(errorCodeScript);
-        }
+        String statusScript = String.format("\t'%s status was expected': x => x.status && (%sfalse),%s",
+                type, statusBuilder, newLine);
+        checksBuilder.append(statusScript);
 
-        return String.format("check(response%d, {%s%s});%s",
-                requestIndex, newLine, checkBuilder, newLine);
+        return String.format("check(response, {%s%s});%s",
+                newLine, checksBuilder, newLine);
     }
 }

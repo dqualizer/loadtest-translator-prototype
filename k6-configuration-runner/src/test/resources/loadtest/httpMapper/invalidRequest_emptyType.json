@@ -1,7 +1,0 @@
- {
-    "type": "",
-    "path": "/contacts.php",
-    "checks": {
-      "status": 200
-    }
-  }
