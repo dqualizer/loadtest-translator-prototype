@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -696,65 +696,17 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
-      },
-      {
-        "current": {
-          "isNone": true,
-          "selected": false,
-          "text": "None",
-          "value": ""
-        },
-        "datasource": {
-          "type": "influxdb",
-          "uid": "P5697886F9CA74929"
-        },
-        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"aggregation\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "name": "aggregation",
-        "options": [],
-        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"aggregation\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "isNone": true,
-          "selected": false,
-          "text": "None",
-          "value": ""
-        },
-        "datasource": {
-          "type": "influxdb",
-          "uid": "P5697886F9CA74929"
-        },
-        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"threshold_type\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "threshold_type",
-        "options": [],
-        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: v.bucket,\r\n    tag: \"threshold_type\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Load_Test_Results_k6x",
   "uid": "zfNOA7c4k",
-  "version": 20,
+  "version": 3,
   "weekStart": ""
 }

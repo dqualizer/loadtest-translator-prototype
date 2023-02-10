@@ -67,7 +67,7 @@ public class ConfigRunner {
 
     private void runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
         String influxHost = hostRetriever.getInfluxHost();
-        String command = "k6-configuration-runner\\k6.exe run " + scriptPath + " --out xk6-influxdb=http://" + influxHost + ":8086";
+        String command = "k6 run " + scriptPath + " --out xk6-influxdb=http://" + influxHost + ":8086";
         Process process = Runtime.getRuntime().exec(command);
 
         String loggingPath = paths.getLogging(testCounter, runCounter);

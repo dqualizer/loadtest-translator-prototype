@@ -14,6 +14,7 @@ services:
       - ./env/.env
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
+      - INFLUX_HOST=influxdb
       - API_HOST=ddd-autohaus
     depends_on:
       rabbit:
