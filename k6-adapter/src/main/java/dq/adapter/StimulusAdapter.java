@@ -57,11 +57,14 @@ public class StimulusAdapter {
             case "VERY_FAST" -> duration = loadPeak.getVeryFast();
             default -> throw new UnknownTermException(timeToHighestLoad);
         }
+        String coolDownDuration = loadPeak.getCoolDownDuration();
 
         Stage stage1 = new Stage(duration, target);
-        Stage stage2 = new Stage("5m", 0);
+        Stage stage2 = new Stage(coolDownDuration, 0);
 
-        LinkedHashSet<Stage> stages = new LinkedHashSet<>(Set.of(stage1, stage2));
+        LinkedHashSet<Stage> stages = new LinkedHashSet<>();
+        stages.add(stage1);
+        stages.add(stage2);
         Scenario scenario = new RampingScenario(stages);
         return scenario;
     }

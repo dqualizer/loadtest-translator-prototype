@@ -23,4 +23,6 @@ public class LoadPeak {
     private String fast;
     @JsonProperty("very_fast")
     private String veryFast;
+    @JsonProperty("cool_down_duration")
+    private String coolDownDuration;
 }

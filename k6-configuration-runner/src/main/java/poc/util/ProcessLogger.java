@@ -22,11 +22,9 @@ public class ProcessLogger {
         File logFile = new File(file);
         OutputStream outputStream = new FileOutputStream(logFile);
         IOUtils.copy(inputStream, outputStream);
-        logger.info("STREAM WAS COPIED");
         this.waitForProcess(process);
 
         int exitValue = process.exitValue();
-        logger.info("LOAD TEST FINISHED WITH EXIT VALUE " + exitValue);
         if(exitValue != 0) this.logError(process);
     }
 

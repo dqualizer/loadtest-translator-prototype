@@ -53,24 +53,28 @@ public class ConfigRunner {
             List<String> script = mapper.getScript(baseURL, loadTest);
             String scriptPath = paths.getScript(testCounter);
             writer.write(script, scriptPath);
+            logger.info("### SCRIPT " + testCounter + " WAS CREATED ###");
 
             int repetition = loadTest.getRepetition();
             int runCounter = 0;
 
             while (runCounter < repetition) {
-                this.runTest(scriptPath, testCounter, runCounter);
+                int exitValue = this.runTest(scriptPath, testCounter, runCounter);
                 runCounter++;
+                logger.info("### LOAD TEST " +testCounter+ "-" +runCounter+ "FINISHED WITH EXIT VALUE:" +exitValue+ " ###");
             }
             testCounter++;
         }
+        logger.info("### LOAD TESTING COMPLETE ###");
     }
 
-    private void runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
+    private int runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
         String influxHost = hostRetriever.getInfluxHost();
         String command = "k6 run " + scriptPath + " --out xk6-influxdb=http://" + influxHost + ":8086";
         Process process = Runtime.getRuntime().exec(command);
 
         String loggingPath = paths.getLogging(testCounter, runCounter);
         processLogger.log(process, loggingPath);
+        return process.exitValue();
     }
 }
