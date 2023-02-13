@@ -12,7 +12,7 @@ influxDB and can be viewed in Grafana.
 The prototype consists of the following modules:
 
 - [ddd-autohaus](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/ddd-autohaus-tactical-design-werkstattauftrag):
-A DDD environment to create an architecture mapping and to run load tests on (forked from [domain-driven-design-werkstatt](https://github.com/MatthiasEschhold/domain-driven-design-werkstatt) by Matthias Eschold).
+A DDD environment to create an architecture mapping for and to run load tests on (forked from [domain-driven-design-werkstatt](https://github.com/MatthiasEschhold/domain-driven-design-werkstatt) by Matthias Eschold).
 
 - [openapi-adapter](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/openapi-adapter):
 A demonstrative component to adapt an OpenAPI-schema to a _**dqlang**_-API-Schema.
@@ -44,10 +44,9 @@ Following external tools have been used:
 ---
 ## How to run
 
-Start the whole application with: `docker-compose up --build`
+> Start the whole application with: `docker-compose up --build`
 
-
-To use the `openapi-adapter` start the `ddd-autohaus-tactical-desing-werkstattauftrag`
+To use the `openapi-adapter` start `ddd-autohaus-tactical-desing-werkstattauftrag`
 first and then the `openapi-adpter` with `mvn spring-boot:run`
 
 ---
