@@ -1,6 +1,7 @@
 package dq.input;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,8 +14,11 @@ import java.net.http.HttpResponse;
 @Component
 public class SchemaLoader {
 
+    @Value("${api.port:9000}")
+    private String apiPort;
+
     public JSONObject load() throws URISyntaxException, IOException, InterruptedException {
-        String serverURI = "http://127.0.0.1:9000/v3/api-docs";
+        String serverURI = "http://127.0.0.1:" + apiPort +"/v3/api-docs";
         URI uri = new URI(serverURI);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)

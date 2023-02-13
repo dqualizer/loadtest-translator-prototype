@@ -1,4 +1,4 @@
-package dq.rabbit;
+package dq.config.rabbit;
 
 public class Constant {
 
