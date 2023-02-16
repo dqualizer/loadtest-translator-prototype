@@ -1,9 +1,11 @@
 version: "3.9"
 services:
   leasingninja:
-    build: leasingninja
+    container_name: "thesis-leasingninja"
+    build:
+      context: leasingninja
+      dockerfile: Dockerfile
     image: leasingninja/leasingninja-java-boundedcontexts-domainmodel:latest
-    #    command:
     environment:
       - SERVER_PORT=9000
     ports:
@@ -69,7 +71,7 @@ services:
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
       - INFLUX_HOST=influxdb
-      - API_HOST=ddd-autohaus
+      - API_HOST=leasingninja
     depends_on:
       rabbit:
         condition: service_healthy
