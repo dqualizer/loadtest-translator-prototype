@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="editing_disabled" type="java.lang.Boolean"*/-->
+<!--/*@thymesVar id="contract" type="io.leasingninja.riskmanagement.userinterface.ContractModel"*/-->
+<head>
+    <title>LeasingNinja – Risk management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+	<h1>Risk management—Rating a contract</h1>
+    <form action="rate_contract" th:object="${contract}" method="post">
+		<fieldset id="input" th:disabled="${editing_disabled}">
+		    <div>
+		    	<label for="contract_number">Contract:</label>
+		    	<input type="text"
+					id="contract_number"
+					name="contract_number"
+					th:value="*{number}"
+					/>
+			</div>
+		    <div>
+		    	<label th:for="creditRating">Credit rating:</label>
+		    	<input type="number"
+					min="1"
+					max="10"
+					th:field="*{creditRating}"
+					/>
+			</div>
+			<div>
+		     	<button type="submit">Save credit rating</button>
+			</div>
+		  </fieldset>
+    </form>
+</body>
+</html>

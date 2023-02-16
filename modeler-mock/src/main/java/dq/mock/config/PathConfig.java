@@ -1,11 +1,13 @@
 package dq.mock.config;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class PathConfig {
 
-    private final String modeling = "modeling/modeling-sales.json";
+    @Value("${modeling.file:modeling/modeling-werkstatt.json}")
+    private String modeling;
     private final String resources = getResourcePath();
 
     public String getModeling() {
