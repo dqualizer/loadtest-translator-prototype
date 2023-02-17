@@ -11,6 +11,7 @@
                     "object": "id1",
                     "activity": "id3"
                 },
+                "description": "Verträge ansehen",
                 "stimulus": {
                     "load_profile": "CONSTANT_LOAD",
                     "base_load": "HIGH",

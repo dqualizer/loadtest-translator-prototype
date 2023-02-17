@@ -31,7 +31,8 @@
                         "operation": "POST",
                         "path_variables": {},
                         "url_parameter": {
-
+                            "fillout_contract_eu": "sales/url/fillout_contract_params_eu.json",
+                            "fillout_contract_us": "sales/url/fillout_contract_params_us.json"
                         },
                         "request_parameter": {
                             "headers": "sales/allgemein/headers.json"
@@ -55,7 +56,10 @@
                         "field": "/sales/view_contract",
                         "operation": "GET",
                         "path_variables": {},
-                        "parameter": {},
+                        "url_parameter": {
+                            "view_contract": "sales/url/view_contract_params.json"
+                        },
+                        "request_parameter": {},
                         "payload": {},
                         "responses": [
                             {
@@ -89,7 +93,10 @@
                         "field": "/sales/sign_contract",
                         "operation": "POST",
                         "path_variables": {},
-                        "parameter": {
+                        "url_parameter": {
+                            "sign_contract": "sales/url/sign_contract_params.json"
+                        },
+                        "request_parameter": {
                             "headers": "sales/allgemein/headers.json"
                         },
                         "payload": {},

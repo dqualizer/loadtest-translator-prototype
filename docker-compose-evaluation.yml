@@ -20,7 +20,7 @@ services:
       - "8070:8070"
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
-      - MODELING_FILE=modeling-sales-2.json
+      - MODELING_FILE=modeling-sales-3.json
     depends_on:
       rabbit:
         condition: service_healthy
@@ -61,8 +61,8 @@ services:
       context: k6-configuration-runner
       dockerfile: Dockerfile
     volumes:
-      - ./docker-output:/app/poc/logging
-      - ./docker-output:/app/poc/scripts
+      - ./docker-output/logging:/app/poc/logging
+      - ./docker-output/scripts:/app/poc/scripts
       - ./docker-config/grafana/my-dashboards:/docker-config/grafana/my-dashboards
     ports:
       - "9010:9010"

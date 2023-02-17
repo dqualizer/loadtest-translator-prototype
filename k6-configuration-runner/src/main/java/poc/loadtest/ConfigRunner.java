@@ -50,7 +50,7 @@ public class ConfigRunner {
         //If config-runner runs inside docker, localhost can´t be used
         String baseURL = localBaseURL.replace("127.0.0.1", hostRetriever.getAPIHost());
         LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
-        int testCounter = 0;
+        int testCounter = 1;
 
         for(LoadTest loadTest : loadTests) {
             List<String> script = mapper.getScript(baseURL, loadTest);
@@ -59,12 +59,12 @@ public class ConfigRunner {
             logger.info("### SCRIPT " + testCounter + " WAS CREATED ###");
 
             int repetition = loadTest.getRepetition();
-            int runCounter = 0;
+            int runCounter = 1;
 
-            while (runCounter < repetition) {
+            while (runCounter <= repetition) {
                 int exitValue = this.runTest(scriptPath, testCounter, runCounter);
-                runCounter++;
                 logger.info("### LOAD TEST " +testCounter+ "-" +runCounter+ " FINISHED WITH VALUE " +exitValue+ " ###");
+                runCounter++;
             }
             testCounter++;
         }
