@@ -28,7 +28,8 @@
                         "path_variables": {
                             "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                         },
-                        "parameter": {},
+                        "url_parameter": {},
+                        "request_parameter": {},
                         "payload": {},
                         "responses": [
                             {
@@ -48,7 +49,8 @@
                         "field": "/auftrag/new",
                         "operation": "POST",
                         "path_variables": {},
-                        "parameter": {
+                        "url_parameter": {},
+                        "request_parameter": {
                             "headers": "auftrag/allgemein/headers.json",
                             "authorization": "auftrag/allgemein/authorization.json"
                         },
@@ -76,11 +78,12 @@
                         "path_variables": {
                             "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
                         },
-                        "parameter": {
+                        "url_parameter": {},
+                        "request_parameter": {
                             "headers": "auftrag/allgemein/headers.json"
                         },
                         "payload": {
-                            "auftragstatus": "auftrag/auftragsstatus/auftragsstatus.json"
+                            "auftragsstatus": "auftrag/auftragsstatus/auftragsstatus.json"
                         },
                         "responses": [
                             {

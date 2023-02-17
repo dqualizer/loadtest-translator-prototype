@@ -1,0 +1,214 @@
+{
+    "version": 1.0,
+    "context": "sales",
+    "environment": "TEST",
+    "runtime_quality_analysis": {
+        "monitoring": [],
+        "resilience": [],
+        "loadtests": [
+            {
+                "artifact": {
+                    "object": "id4",
+                    "activity": "id5"
+                },
+                "description": "Verträge unterschreiben",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "HIGH",
+                    "time_to_highest_load": "SLOW",
+                    "accuracy": 50
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "sign_contract": "sales/url/sign_contract_params.json"
+                    },
+                    "request_parameter": {
+                        "headers": "sales/allgemein/headers.json"
+                    },
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id2"
+                },
+                "description": "Verträge ausfüllen",
+                "stimulus": {
+                    "load_profile": "LOAD_INCREASE",
+                    "type_of_increase": "QUADRATIC",
+                    "accuracy": 60
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "fillout_contract_us": "sales/url/fillout_contract_params_us.json"
+                    },
+                    "request_parameter": {
+                        "headers": "sales/allgemein/headers.json"
+                    },
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": [
+                    "response_time"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id3"
+                },
+                "description": "Verträge ansehen",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "VERY_HIGH",
+                    "time_to_highest_load": "SLOW",
+                    "accuracy": 80
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "view_contract": "sales/url/view_contract_params.json"
+                    },
+                    "request_parameter": {},
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": [
+                    "response_time"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id4",
+                    "activity": "id5"
+                },
+                "description": "Verträge unterschreiben",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "HIGH",
+                    "time_to_highest_load": "SLOW",
+                    "accuracy": 50
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "sign_contract": "sales/url/sign_contract_params.json"
+                    },
+                    "request_parameter": {
+                        "headers": "sales/allgemein/headers.json"
+                    },
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id2"
+                },
+                "description": "Verträge ausfüllen",
+                "stimulus": {
+                    "load_profile": "LOAD_INCREASE",
+                    "type_of_increase": "QUADRATIC",
+                    "accuracy": 60
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "fillout_contract_eu": "sales/url/fillout_contract_params_eu.json"
+                    },
+                    "request_parameter": {
+                        "headers": "sales/allgemein/headers.json"
+                    },
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": [
+                    "response_time"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id3"
+                },
+                "description": "Verträge ansehen",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "VERY_HIGH",
+                    "time_to_highest_load": "SLOW",
+                    "accuracy": 80
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "view_contract": "sales/url/view_contract_params.json"
+                    },
+                    "request_parameter": {},
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": [
+                    "response_time"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id4",
+                    "activity": "id5"
+                },
+                "description": "Verträge unterschreiben",
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "HIGH",
+                    "time_to_highest_load": "SLOW",
+                    "accuracy": 50
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {
+                        "sign_contract": "sales/url/sign_contract_params.json"
+                    },
+                    "request_parameter": {
+                        "headers": "sales/allgemein/headers.json"
+                    },
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "TOLERATED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            }
+        ]
+    }
+}

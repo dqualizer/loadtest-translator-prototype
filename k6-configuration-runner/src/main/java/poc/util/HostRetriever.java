@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class HostRetriever {
 
-    @Value("${api.host}")
+    @Value("${api.host:127.0.0.1}")
     private String apiHost;
-    @Value("${influx.host}")
+    @Value("${influx.host:localhost}")
     private String influxHost;
 
     public String getAPIHost() {

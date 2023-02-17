@@ -29,14 +29,15 @@ public class EndpointAdapter {
         String path = this.markPathVariables(field);
         String type = endpoint.getOperation();
         Map<String, String> pathVariables = endpoint.getPathVariables();
-        Map<String, String> params = endpoint.getParameter();
+        Map<String, String> queryParams = endpoint.getUrlParameter();
+        Map<String, String> params = endpoint.getRequestParameter();
         Map<String, String> payload = endpoint.getPayload();
 
         int duration = this.getDuration(responseMeasure);
         LinkedHashSet<Integer> statusCodes = this.getStatusCodes(endpoint);
         Checks checks = new Checks(statusCodes, duration);
 
-        return new Request(type, path, pathVariables, params, payload, checks);
+        return new Request(type, path, pathVariables,queryParams, params, payload, checks);
     }
 
     /**

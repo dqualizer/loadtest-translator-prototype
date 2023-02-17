@@ -22,6 +22,8 @@ public class ScriptMapper implements k6Mapper {
     @Autowired
     private PayloadMapper payloadMapper;
     @Autowired
+    private QueryParamsMapper queryParamsMapper;
+    @Autowired
     private PathVariablesMapper pathVariablesMapper;
     @Autowired
     private HttpMapper httpMapper;
@@ -46,13 +48,16 @@ public class ScriptMapper implements k6Mapper {
     public String map(Request request) {
         StringBuilder requestBuilder = new StringBuilder();
 
-        if(!request.getParams().isEmpty()) {
-            String paramsScript = paramsMapper.map(request);
-            requestBuilder.append(paramsScript);
-        }
+        String paramsScript = paramsMapper.map(request);
+        requestBuilder.append(paramsScript);
+
         if(!request.getPayload().isEmpty()) {
             String payloadScript = payloadMapper.map(request);
             requestBuilder.append(payloadScript);
+        }
+        if(!request.getQueryParams().isEmpty()) {
+            String queryParamsScript = queryParamsMapper.map(request);
+            requestBuilder.append(queryParamsScript);
         }
         if(!request.getPathVariables().isEmpty()) {
             String pathVariablesScript = pathVariablesMapper.map(request);
@@ -77,6 +82,7 @@ public class ScriptMapper implements k6Mapper {
         String trackDataPerURL = this.trackDataPerURLInitScript();
         return """
                 import http from 'k6/http';
+                import {URLSearchParams} from 'https://jslib.k6.io/url/1.0.0/index.js';
                 import {check, sleep} from 'k6';
                 %s
 

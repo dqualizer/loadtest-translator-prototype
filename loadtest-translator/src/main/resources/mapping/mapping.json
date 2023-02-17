@@ -36,7 +36,8 @@
                         "path_variables": {
                             "version": "dq/kinoapp/versions.csv"
                         },
-                        "parameter": {},
+                        "url_parameter": {},
+                        "request_parameter": {},
                         "payload": {
                             "valid_nutzer": "dq/kinoapp/open/valid_nutzer.json",
                             "invalid_nutzer": "dq/kinoapp/open/invalid_nutzer.json"

@@ -8,3 +8,9 @@ The adapted schema will be exported via RabbitMQ.
 ## How to run
 
 Start the module with: `mvn spring-boot:run`
+
+---
+## Application properties
+
+- api.port
+- api.context

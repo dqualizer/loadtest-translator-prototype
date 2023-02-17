@@ -26,7 +26,7 @@ public class ParamsMapper implements k6Mapper {
     public String map(Request request) {
         Map<String, String> params = request.getParams();
         Optional<String> maybeReference = params.values().stream().findFirst();
-        if(maybeReference.isEmpty()) throw new NoReferenceFoundException(params);
+        if(maybeReference.isEmpty()) return String.format("%sconst params = {}%s", newLine, newLine);
 
         String referencePath = paths.getResourcePath() + maybeReference.get();
         String paramsObject = reader.readFile(referencePath);

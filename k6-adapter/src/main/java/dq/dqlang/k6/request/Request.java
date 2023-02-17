@@ -18,6 +18,8 @@ public class Request {
     private String path;
     @JsonProperty("path_variables")
     private Map<String, String> pathVariables;
+    @JsonProperty("query_params")
+    private Map<String, String> queryParams;
     private Map<String, String> params;
     private Map<String, String> payload;
     private Checks checks;

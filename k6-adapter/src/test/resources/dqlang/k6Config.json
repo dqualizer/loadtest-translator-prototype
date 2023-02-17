@@ -20,6 +20,7 @@
           "version": "dq/kinoapp/versions.csv",
           "userId": "dq/kinoapp/userIds.csv"
         },
+        "query_params": {},
         "params": {
           "headers": "dq/kinoapp/headers.json"
         },

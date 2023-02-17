@@ -1,0 +1,119 @@
+version: "3.9"
+services:
+  leasingninja:
+    container_name: "thesis-leasingninja"
+    build:
+      context: leasingninja
+      dockerfile: Dockerfile
+    image: leasingninja/leasingninja-java-boundedcontexts-domainmodel:latest
+    environment:
+      - SERVER_PORT=9000
+    ports:
+      - "9000:9000"
+
+  modeler-mock:
+    container_name: "thesis-modeler-mock"
+    build:
+      context: modeler-mock
+      dockerfile: Dockerfile
+    ports:
+      - "8070:8070"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+      - MODELING_FILE=modeling-sales-3.json
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      loadtest-translator:
+        condition: service_started
+      leasingninja:
+        condition: service_started
+
+  loadtest-translator:
+    container_name: "thesis-loadtest-translator"
+    build:
+      context: loadtest-translator
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
+  k6-adapter:
+    container_name: "thesis-k6-adapter"
+    build:
+      context: k6-adapter
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
+  config-runner:
+    container_name: "thesis-k6-configuration-runner"
+    build:
+      context: k6-configuration-runner
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker-output/logging:/app/poc/logging
+      - ./docker-output/scripts:/app/poc/scripts
+      - ./docker-config/grafana/my-dashboards:/docker-config/grafana/my-dashboards
+    ports:
+      - "9010:9010"
+    env_file:
+      - ./env/.env
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbit
+      - INFLUX_HOST=influxdb
+      - API_HOST=leasingninja
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      influxdb:
+        condition: service_started
+      leasingninja:
+        condition: service_started
+
+  rabbit:
+    container_name: "thesis-rabbit"
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 2s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+  influxdb:
+    image: influxdb:latest
+    container_name: "thesis-influx"
+    ports:
+      - "8086:8086"
+    env_file:
+      - ./env/.env
+
+  grafana:
+    image: grafana/grafana:9.1.8
+    container_name: "thesis-grafana"
+    volumes:
+      - ./docker-config/grafana/provisioning:/usr/share/grafana/custom/
+      - ./docker-config/grafana/my-dashboards:/usr/share/grafana/public/dashboards
+    ports:
+      - "3030:3000"
+    env_file:
+      - ./env/.env
+    environment:
+      - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/usr/share/grafana/custom/
+    depends_on:
+      - influxdb

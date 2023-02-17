@@ -14,7 +14,7 @@ public class PathConfig {
     }
 
     public String getLogging(int counter1, int counter2) {
-        return resources + logging + counter1 + counter2 + ".txt";
+        return resources + logging + counter1 + "-" + counter2 + ".txt";
     }
 
     public String getResourcePath() {

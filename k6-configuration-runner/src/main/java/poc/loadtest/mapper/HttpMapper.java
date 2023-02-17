@@ -28,29 +28,31 @@ public class HttpMapper implements k6Mapper {
         Set<String> variables = pathVariables.keySet();
 
         for(String variable : variables) {
-            String randomVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
+            String randomPathVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
                     newLine, variable, variable, variable, newLine);
-            httpBuilder.append(randomVariable);
+            httpBuilder.append(randomPathVariable);
         }
 
         Map<String, String> payload = request.getPayload();
-        Map<String, String> params = request.getParams();
+        Map<String, String> queryParams = request.getQueryParams();
 
         String extraParams = "";
-        if(!payload.isEmpty() || !params.isEmpty()) {
-            if(!payload.isEmpty() && !params.isEmpty()) {
+        if(!payload.isEmpty() || !queryParams.isEmpty()) {
+            if(!payload.isEmpty()  && !queryParams.isEmpty()) {
+                httpBuilder.append(this.randomQueryParamScript());
                 httpBuilder.append(this.randomPayloadScript());
-                extraParams = ", JSON.stringify(payload), params";
+                extraParams = " + `?${urlSearchParams.toString()}`, JSON.stringify(payload)";
             }
             else if(!payload.isEmpty()) {
                 httpBuilder.append(this.randomPayloadScript());
                 extraParams = ", JSON.stringify(payload)";
             }
             else {
-                extraParams = ", params";
+                httpBuilder.append(this.randomQueryParamScript());
+                extraParams = " + `?${urlSearchParams.toString()}`";
             }
         }
-        String httpRequest = String.format("%slet response = http.%s(baseURL + `%s`%s);%s",
+        String httpRequest = String.format("%slet response = http.%s(baseURL + `%s`%s, params);%s",
                 newLine, method, path, extraParams, newLine);
         httpBuilder.append(httpRequest);
 
@@ -64,5 +66,12 @@ public class HttpMapper implements k6Mapper {
     private String randomPayloadScript() {
         return String.format("%slet payload = payloads[Math.floor(Math.random() * payloads.length)];%s",
                 newLine, newLine);
+    }
+
+    private String randomQueryParamScript() {
+        return """
+                let currentSearchParams = searchParams[Math.floor(Math.random() * searchParams.length)];
+                let urlSearchParams = new URLSearchParams(currentSearchParams);
+                """;
     }
 }

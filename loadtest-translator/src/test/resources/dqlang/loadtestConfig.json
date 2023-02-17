@@ -28,7 +28,8 @@
         "path_variables": {
           "version": "dq/kinoapp/versions.csv"
         },
-        "parameter": {
+        "url_parameter": {},
+        "request_parameter": {
           "headers": "dq/kinoapp/headers.json"
         },
         "responses": [
