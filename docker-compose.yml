@@ -17,7 +17,7 @@ services:
       - "8070:8070"
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
-      - MODELING_FILE=modeling/modeling-werkstatt.json
+      - MODELING_FILE=modeling-werkstatt.json
     depends_on:
       rabbit:
         condition: service_healthy

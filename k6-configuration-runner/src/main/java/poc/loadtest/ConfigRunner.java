@@ -1,5 +1,6 @@
 package poc.loadtest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.config.PathConfig;
@@ -42,10 +43,12 @@ public class ConfigRunner {
     }
 
     private void run(Config config) throws IOException, InterruptedException {
+        ObjectMapper om = new ObjectMapper();
+        logger.info(om.writeValueAsString(config));
+
         String localBaseURL = config.getBaseURL();
         //If config-runner runs inside docker, localhost can´t be used
         String baseURL = localBaseURL.replace("127.0.0.1", hostRetriever.getAPIHost());
-
         LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
         int testCounter = 0;
 

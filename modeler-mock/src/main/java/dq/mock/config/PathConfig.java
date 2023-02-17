@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PathConfig {
 
-    @Value("${modeling.file:modeling/modeling-werkstatt.json}")
+    @Value("${modeling.file:modeling-werkstatt.json}")
     private String modeling;
     private final String resources = getResourcePath();
 
     public String getModeling() {
-        return resources + modeling;
+        return resources + "modeling/" + modeling;
     }
 
     private String getResourcePath() {

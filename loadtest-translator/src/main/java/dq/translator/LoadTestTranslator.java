@@ -114,12 +114,15 @@ public class LoadTestTranslator {
 
     private Endpoint adoptParametrization(Endpoint endpoint, Parametrization parametrization) {
         Map<String, String> pathVariables = parametrization.getPathVariables();
-        Map<String, String> parameter = parametrization.getParameter();
+        Map<String, String> urlParameter = parametrization.getUrlParameter();
+        Map<String, String> requestParameter = parametrization.getRequestParameter();
         Map<String, String> payload = parametrization.getPayload();
-        if(parameter.size() > 1 || payload.size() > 1) throw new TooManyReferencesException(parameter.keySet(), payload.keySet());
+        if(requestParameter.size() > 1 || payload.size() > 1)
+            throw new TooManyReferencesException(urlParameter.keySet(), requestParameter.keySet(), payload.keySet());
 
         endpoint.setPathVariables(pathVariables);
-        endpoint.setParameter(parameter);
+        endpoint.setUrlParameter(urlParameter);
+        endpoint.setRequestParameter(requestParameter);
         endpoint.setPayload(payload);
 
         return endpoint;

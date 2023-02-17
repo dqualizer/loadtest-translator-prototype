@@ -7,15 +7,11 @@ import poc.dqlang.request.Request;
 import poc.loadtest.exception.NoReferenceFoundException;
 import poc.util.MyFileReader;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
-public class ParamsMapper implements k6Mapper {
+public class QueryParamsMapper implements k6Mapper {
 
     @Autowired
     private PathConfig paths;
@@ -24,14 +20,17 @@ public class ParamsMapper implements k6Mapper {
 
     @Override
     public String map(Request request) {
-        Map<String, String> params = request.getParams();
-        Optional<String> maybeReference = params.values().stream().findFirst();
-        if(maybeReference.isEmpty()) return String.format("%sconst params = {}%s", newLine, newLine);
+        Map<String, String> queryParams = request.getQueryParams();
+        Optional<String> maybeReference = queryParams.values().stream().findFirst();
+        if(maybeReference.isEmpty()) throw new NoReferenceFoundException(queryParams);
 
         String referencePath = paths.getResourcePath() + maybeReference.get();
-        String paramsObject = reader.readFile(referencePath);
+        String queryParamsObject = reader.readFile(referencePath);
 
-        return String.format("%sconst params = %s%s",
-                newLine, paramsObject, newLine);
+        return """
+                const queryParams = %s
+                const searchParams = queryParams['params'];
+                
+                """.formatted(queryParamsObject);
     }
 }

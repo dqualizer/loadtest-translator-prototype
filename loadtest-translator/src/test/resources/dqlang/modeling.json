@@ -21,7 +21,8 @@
                         "version": "dq/kinoapp/versions.csv",
                         "userId": "dq/kinoapp/userIds.csv"
                     },
-                    "parameter": {
+                    "url_parameter": {},
+                    "request_parameter": {
                         "headers": "dq/kinoapp/headers.json"
                     },
                     "payload": {
@@ -50,7 +51,8 @@
                 },
                 "parametrization": {
                     "path_variables": {},
-                    "parameter": {},
+                    "url_parameter": {},
+                    "request_parameter": {},
                     "payload": {}
                 },
                 "response_measure": {
@@ -70,7 +72,8 @@
                 },
                 "parametrization": {
                     "path_variables": {},
-                    "parameter": {},
+                    "url_parameter": {},
+                    "request_parameter": {},
                     "payload": {}
                 },
                 "response_measure": {

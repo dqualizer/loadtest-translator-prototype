@@ -17,7 +17,10 @@ public class Endpoint {
     private String operation;
     @JsonProperty("path_variables")
     private Map<String, String> pathVariables;
-    private Map<String, String> parameter;
+    @JsonProperty("url_parameter")
+    private Map<String, String> urlParameter;
+    @JsonProperty("request_parameter")
+    private Map<String, String> requestParameter;
     private Map<String, String> payload;
     private LinkedHashSet<Response> responses;
 }

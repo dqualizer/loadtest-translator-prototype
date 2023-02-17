@@ -9,6 +9,31 @@
             {
                 "artifact": {
                     "object": "id1",
+                    "activity": "id3"
+                },
+                "stimulus": {
+                    "load_profile": "CONSTANT_LOAD",
+                    "base_load": "HIGH",
+                    "accuracy": 80
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {},
+                    "request_parameter": {},
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            },
+            {
+                "artifact": {
+                    "object": "id1",
                     "activity": "id2"
                 },
                 "stimulus": {
@@ -17,8 +42,9 @@
                     "accuracy": 60
                 },
                 "parametrization": {
-                    "path_variables": {}, 
-                    "parameter": {
+                    "path_variables": {},
+                    "url_parameter": {},
+                    "request_parameter": {
                         "headers": "sales/allgemein/headers.json"
                     },
                     "payload": {}
@@ -42,8 +68,9 @@
                     "accuracy": 80
                 },
                 "parametrization": {
-                    "path_variables": {}, 
-                    "parameter": {},
+                    "path_variables": {},
+                    "url_parameter": {},
+                    "request_parameter": {},
                     "payload": {}
                 },
                 "response_measure": {
@@ -51,30 +78,6 @@
                 },
                 "result_metrics": [
                     "response_time"
-                ]
-            },
-            {
-                "artifact": {
-                    "object": "id1",
-                    "activity": "id3"
-                },
-                "stimulus": {
-                    "load_profile": "CONSTANT_LOAD",
-                    "base_load": "HIGH",
-                    "accuracy": 80
-                },
-                "parametrization": {
-                    "path_variables": {}, 
-                    "parameter": {},
-                    "payload": {}
-                },
-                "response_measure": {
-                    "response_time": "SATISFIED"
-                },
-                "result_metrics": [
-                    "response_time",
-                    "90th_percentile",
-                    "95th_percentile"
                 ]
             },
             {
@@ -89,8 +92,9 @@
                     "accuracy": 50
                 },
                 "parametrization": {
-                    "path_variables": {}, 
-                    "parameter": {
+                    "path_variables": {},
+                    "url_parameter": {},
+                    "request_parameter": {
                         "headers": "sales/allgemein/headers.json"
                     },
                     "payload": {}

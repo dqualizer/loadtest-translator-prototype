@@ -12,6 +12,9 @@ public class Parametrization {
 
     @JsonProperty("path_variables")
     private Map<String, String> pathVariables;
-    private Map<String, String> parameter;  //Size should be 1
+    @JsonProperty("url_parameter")
+    private Map<String, String> urlParameter;
+    @JsonProperty("request_parameter")
+    private Map<String, String> requestParameter;  //Size should be 1
     private Map<String, String> payload;    //Size should be 1
 }

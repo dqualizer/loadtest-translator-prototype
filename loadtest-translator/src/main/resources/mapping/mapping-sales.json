@@ -3,7 +3,7 @@
     "context": "sales",
     "server_info": [
         {   
-            "host": "127.0.0.1:9000",
+            "host": "http://127.0.0.1:9000",
             "environment": "TEST"
         }
     ],
@@ -30,7 +30,10 @@
                         "field": "/sales/fillout_contract",
                         "operation": "POST",
                         "path_variables": {},
-                        "parameter": {
+                        "url_parameter": {
+
+                        },
+                        "request_parameter": {
                             "headers": "sales/allgemein/headers.json"
                         },
                         "payload": {},
