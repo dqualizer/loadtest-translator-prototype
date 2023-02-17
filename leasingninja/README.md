@@ -1,5 +1,7 @@
 # leasingninja-java-boundedcontexts-domainmodel
 
+Forked from: https://github.com/leasingninja/leasingninja-java-boundedcontexts-domainmodel
+
 The LeasingNinja in Java with DDD style bounded contexts and domain model. UI in Spring WebMVC.
 
 If you haven't visited leasingninja.io yet, should do so now, as its the introduction to the further text.

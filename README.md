@@ -12,7 +12,11 @@ influxDB and can be viewed in Grafana.
 The prototype consists of the following modules:
 
 - [ddd-autohaus](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/ddd-autohaus-tactical-design-werkstattauftrag):
-A DDD environment to create an architecture mapping for and to run load tests on (forked from [domain-driven-design-werkstatt](https://github.com/MatthiasEschhold/domain-driven-design-werkstatt) by Matthias Eschold).
+A DDD-environment to create an architecture mapping for and to run load tests on (forked from [domain-driven-design-werkstatt](https://github.com/MatthiasEschhold/domain-driven-design-werkstatt) by Matthias Eschold).
+
+- [leasingninja](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/leasingninja):
+A foreign DDD-environment to create an architecture mapping for and to run load tests on, which is not fully implemented yet
+(forked from [leasingjinja-java-boundedcontexts-domainmodel](https://github.com/leasingninja/leasingninja-java-boundedcontexts-domainmodel) by Henning Schwentner).
 
 - [openapi-adapter](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/openapi-adapter):
 A demonstrative component to adapt an OpenAPI-schema to a _**dqlang**_-API-Schema.
@@ -44,10 +48,15 @@ Following external tools have been used:
 ---
 ## How to run
 
-> Start the whole application with: `docker-compose up --build`
+> Start the whole application with _ddd-autohaus_ as DDD-environment with: `docker-compose up --build`
 
-To use the `openapi-adapter` start `ddd-autohaus-tactical-desing-werkstattauftrag`
-first and then the `openapi-adpter` with `mvn spring-boot:run`
+> Start the whole application with _leasingninja_ as DDD-environment with: `docker-compose -f .\docker-compose-evaluation.yml up --build`
+>
+> Inside [docker-compose-evaluation.yml](https://github.com/dqualizer/loadtest-translator-prototype/blob/main/docker-compose-evaluation.yml) 
+> you can change the _modeling-file_ for the modeler-mock.
+
+
+> To use the _openapi-adapter_, start _ddd-autohaus-tactical-design-werkstattauftrag_ first and then _openapi-adapter_, both with `mvn spring-boot:run`
 
 ---
 ## Further information

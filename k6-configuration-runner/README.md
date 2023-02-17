@@ -6,6 +6,12 @@ can be viewed in Grafana.
 
 The k6 configuration will be imported via RabbitMQ.
 
+---
+## Application properties
+
+- api.host (default: 127.0.0.1) (Should be an IP-address)
+- influx.host (default: localhost)
+
 --- 
 ### xk6-output-influxdb
 
