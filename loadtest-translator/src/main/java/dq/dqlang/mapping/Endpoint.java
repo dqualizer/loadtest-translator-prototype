@@ -1,16 +1,15 @@
 package dq.dqlang.mapping;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
 
 @Getter
-@Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endpoint {
 
     private String field;
