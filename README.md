@@ -61,12 +61,18 @@ Following external tools have been used:
 ---
 ## Output
 
-In the console you can see log messages which, give information about the current state of the
+In the console you can see log messages, which will show you information about the current state of the
 prototype.
+
 Additionally, inside the [docker-output](docker-output) folder all created k6-scripts as well as
 the console output of k6 are saved. The k6-scripts are saved as js-files. 
-The k6-console output is saved in txt-files. For every time a loadtest is repeated, a new logging
+The k6-console output is saved in txt-files. For every time a new loadtest starts or a loadtest is repeated, a new logging
 file will be used.
+
+---
+## Component Overview
+
+![Overview of all components](ComponentOverview.png)
 
 ---
 ## Further information
