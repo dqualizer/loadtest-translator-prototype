@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "version": {
+        "type": "integer",
+        "description": "Version of this schema representation",
+        "const": 1.0
+    },
+    "context": {
+        "type": "string",
+        "description": "The name of the Bounded Context to which this schema belongs",
+        "minLength": 1
+    },
+    "api": {
+      "type": "string",
+      "description": "Used API Schema of the Bounded Context",
+      "examples": ["OpenAPI_3.0.1", "GraphQL", "WSDL"],
+      "minLength": 1
+    },
+    "server_info": {
+      "type": "array",
+      "description": "Collection of different URls of this Bounded Context",
+      "uniqueItems": true,
+        "items":  {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "description": "URL of the host, also logical URLs",
+                    "examples": ["localhost:8080", "10.10.110.1:5782", "https://aws.amazon.com/dqualizer-runtime-testing-tool/"]
+                },
+                "environment": {
+                    "type": "string",
+                    "description": "The environment this host belongs to",
+                    "examples": ["PROD", "TEST", "INT", "QUAL"]
+                }
+            },
+            "required": [
+                "host",
+                "environment"
+            ]
+        }   
+    },
+    "field": {
+        "type": "array",
+        "description": "Information about all endpoints of this Bounded Context",
+        "uniqueItems": true,
+        "patternProperties": {
+            "items": {
+                "type": "object",
+                "description": "Information about one particular endpoint",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "Relative path of this endpoint"
+                    },
+                    "operation_id": {
+                        "type": "string",
+                        "description": "Name of this object inside the source code"
+                    },
+                    "operation": {
+                        "type": "string",
+                        "description": "Operation of this object",
+                        "examples": ["GET", "POST", "QUERY", "MUTATION"]
+                    },
+                    "input": {
+                        "type": "array",
+                        "description": "Inputs like path variables or headers",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "in": {
+                                    "type": "string",
+                                    "description": "Location of the parameter",
+                                    "examples": ["url", "header"]
+                                },
+                                "required": {
+                                    "type": "boolean"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "examples": ["string", "integer"]
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "required",
+                                "type"
+                            ]
+                        }
+                    },
+                    "body": {
+                        "type": "object",
+                        "patternProperties": {
+                           ".*": {
+                                "type": "object",
+                                "description": "A specific content-type",
+                                "examples": ["application/json", "application/xml"],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Reference to the data schema of this body, see below for 'data_schema'"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "output": {
+                        "type": "array",
+                        "description": "Relevant outputs like data types or status codes",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "object",
+                            "patternProperties": {
+                                ".*": {
+                                    "type": "object",
+                                    "description": "A specific content-type",
+                                    "examples": ["application/json", "application/xml"],
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Reference to the data schema of this body, see below for 'data_schema'"
+                                        },
+                                        "expected_code": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["type"]
+                                }
+                            } 
+                        }   
+                    }
+                },
+                "required": [
+                    "operation_id",
+                    "operation",
+                    "input",
+                    "body",
+                    "output"
+                ]
+            }
+        }   
+    },
+    "data_schemas": {
+        "type": "object",
+        "description": "Data schemas of all used data types in this API schema",
+        "patternProperties": {
+            ".*": {
+                "type": "object",
+                "description": "One particular data type",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "type description",
+                        "examples": ["object", "long", "string", "date"]
+                    }, 
+                    "properties": {
+                        "type": "array",
+                        "description": "List of all data properties",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  },
+  "required": [
+    "version",
+    "context",
+    "api",
+    "server_info",
+    "field",
+    "data_schemas"
+  ]
+}

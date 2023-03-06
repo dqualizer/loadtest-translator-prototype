@@ -1,0 +1,252 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "description": "Version of this load test configuration",
+      "const": 1.0
+    },
+    "context": {
+      "type": "string",
+      "description": "The name of the Bounded Context to which this load test belongs",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "string",
+      "description": "The environment this host belongs to",
+      "examples": ["PROD", "TEST", "INT", "QUAL"]
+    },
+    "base_url": {
+      "type": "string",
+      "description": "URL of this host",
+      "examples": ["localhost:8080", "10.10.110.1:5782"]
+    },
+    "load_tests": {
+      "type": "array",
+      "description": "List of all loadtests in order of their execution",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "description": "One particular load test",
+        "properties": {
+          "artifact": {
+            "type": "object",
+            "properties": {
+              "object": {
+                "type": "string",
+                "description": "dq_id of an Actor or Work Object, where the loadtest was specified"
+              },
+              "activity": {
+                "type": "string",
+                "description": "dq_id of an Activity inside an object, if the loadtest was specified on an Activity"
+              }
+            },
+            "required": [
+              "object"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of this loadtest"
+          },
+          "stimulus": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "load_profile": {
+                    "type": "string",
+                    "description": "The Load will increase until a certain peak",
+                    "enum": ["LOAD_PEAK"]
+                  },
+                  "highest_load": {
+                    "type": "string",
+                    "description": "How high should the load peak be",
+                    "enum": ["HIGH", "VERY_HIGH", "EXTREMLY_HIGH"]
+                  },
+                  "time_to_highest_load": {
+                    "type": "string",
+                    "description": "How long should it take to reach the load peek",
+                    "enum": ["SLOW", "FAST", "VERY_FAST"]
+                  },
+                  "accuracy": {
+                    "type": "integer",
+                    "description": "How precise should the load test be in percent",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "load_profile",
+                  "highest_load",
+                  "time_to_highest_load",
+                  "accuracy"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "load_profile": {
+                    "type": "string",
+                    "description": "The load will increase continuously",
+                    "enum": ["LOAD_INCREASE"]
+                  },
+                  "type_of_increase": {
+                    "type": "string",
+                    "description": "How strong should the load increase",
+                    "enum": ["LINEAR", "QUADRATIC", "CUBIC"]
+                  },
+                  "accuracy": {
+                    "type": "integer",
+                    "description": "How precise should the load test be in percent",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "load_profile",
+                  "type_of_increase",
+                  "accuracy"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "load_profile": {
+                    "type": "string",
+                    "description": "The load will remain constant",
+                    "enum": ["CONSTANT_LOAD"]
+                  },
+                  "base_load": {
+                    "type": "string",
+                    "description": "How high should the base load be",
+                    "enum": ["LOW", "MEDIUM", "HIGH"]
+                  },
+                  "accuracy": {
+                    "type": "integer",
+                    "description": "How precise should the load test be in percent",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "load_profile",
+                  "base_load",
+                  "accuracy"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "response_measure": {
+            "type": "object",
+            "properties": {
+              "response_time": {
+                "type": "string",
+                "description": "",
+                "enum": ["SATISFIED", "TOLERATED", "FRUSTRATED"]
+              }
+            }
+          },
+          "endpoint": {
+            "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "description": "Location of this endpoint",
+                  "examples": ["/kinoapp/{version}/open", "/graphql"]
+                },
+                "operation": {
+                  "type": "string",
+                  "description": "Operation of this object",
+                  "examples": ["GET", "POST", "QUERY", "MUTATION"]
+                },
+                "path_variables": {
+                  "type": "object",
+                  "description": "References to data sources that can be used for url parameters, like Ids, for this method",
+                  "patternProperties": {
+                    ".*": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "url_parameter": {
+                  "type": "object",
+                  "description": "References to data sources that can be used for request parameters, like headers or cookies, for this method",
+                  "patternProperties": {
+                    ".*": {
+                      "type": "string"
+                    }
+                  },
+                  "maxProperties": 1
+                },
+                "request_parameter": {
+                  "type": "object",
+                  "description": "References to data sources that can be used for request parameters, like headers or cookies, for this method",
+                  "patternProperties": {
+                    ".*": {
+                      "type": "string"
+                    }
+                  },
+                  "maxProperties": 1
+                },
+                "payload": {
+                  "type": "object",
+                  "description": "References to data sources that can be used for payload bodies for this method",
+                  "patternProperties": {
+                    ".*": {
+                      "type": "string"
+                    }
+                  },
+                  "maxProperties": 1
+                },
+                "responses": {
+                  "type": "array",
+                  "description": "Anything, that this endpoints returns",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "expected_code": {
+                        "type": "integer"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "field",
+                "operation",
+                "payload",
+                "path_variables",
+                "url_parameter",
+                "request_parameter",
+                "responses"
+              ],
+              "additionalProperties": false
+            }
+        },
+        "required": [
+          "artifact",
+          "stimulus",
+          "response_measure",
+          "endpoint"
+        ]
+      }
+    }
+  },
+  "required": [
+    "version",
+    "context",
+    "environment",
+    "base_url",
+    "load_tests"
+  ], 
+  "additionalProperties": false
+}

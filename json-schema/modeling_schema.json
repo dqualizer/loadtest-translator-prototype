@@ -1,0 +1,251 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "version": {
+          "type": "integer",
+          "description": "Version of this modeling representation",
+          "const": 1.0
+      },
+      "context": {
+        "type": "string",
+        "description": "The name of the Bounded Context to which this modeling belongs",
+        "minLength": 1
+      },
+      "environment": {
+        "type": "string",
+        "description": "The environment this host belongs to",
+        "examples": ["PROD", "TEST", "INT", "QUAL"]
+      },
+      "runtime_quality_analysis": {
+        "type": "object",
+        "properties": {
+          "monitoring": {
+            "type": "array",
+            "description": "Configurations for specified monitoring",
+            "uniqueItems": true,
+            "items": {
+              "type": "object"
+            }
+        },
+        "resilience": {
+          "type": "array",
+          "description": "Configurations for specified resilience tests",
+          "uniqueItems": true,
+          "items": {
+            "type": "object"
+          }
+        },
+        "loadtests": {
+          "type": "array",
+          "description": "Configurations for specified load tests",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "properties": {
+              "artifact": {
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "type": "string",
+                    "description": "dq_id of an Actor or Work Object, where the loadtest was specified"
+                  },
+                  "activity": {
+                    "type": "string",
+                    "description": "dq_id of an Activity inside an object, if the loadtest was specified on an Activity"
+                  }
+                },
+                "required": [
+                  "object"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of this loadtest"
+              },
+              "stimulus": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "load_profile": {
+                        "type": "string",
+                        "description": "The Load will increase until a certain peak",
+                        "enum": ["LOAD_PEAK"]
+                      },
+                      "highest_load": {
+                        "type": "string",
+                        "description": "How high should the load peak be",
+                        "enum": ["HIGH", "VERY_HIGH", "EXTREMLY_HIGH"]
+                      },
+                      "time_to_highest_load": {
+                        "type": "string",
+                        "description": "How long should it take to reach the load peek",
+                        "enum": ["SLOW", "FAST", "VERY_FAST"]
+                      },
+                      "accuracy": {
+                        "type": "integer",
+                        "description": "How precise should the load test be in percent",
+                        "minimum": 0,
+                        "maximum": 100
+                      }
+                    },
+                    "required": [
+                      "load_profile",
+                      "highest_load",
+                      "time_to_highest_load",
+                      "accuracy"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "load_profile": {
+                        "type": "string",
+                        "description": "The load will increase continuously",
+                        "enum": ["LOAD_INCREASE"]
+                      },
+                      "type_of_increase": {
+                        "type": "string",
+                        "description": "How strong should the load increase",
+                        "enum": ["LINEAR", "QUADRATIC", "CUBIC"]
+                      },
+                      "accuracy": {
+                        "type": "integer",
+                        "description": "How precise should the load test be in percent",
+                        "minimum": 0,
+                        "maximum": 100
+                      }
+                    },
+                    "required": [
+                      "load_profile",
+                      "type_of_increase",
+                      "accuracy"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "load_profile": {
+                        "type": "string",
+                        "description": "The load will remain constant",
+                        "enum": ["CONSTANT_LOAD"]
+                      },
+                      "base_load": {
+                        "type": "string",
+                        "description": "How high should the base load be",
+                        "enum": ["LOW", "MEDIUM", "HIGH"]
+                      },
+                      "accuracy": {
+                        "type": "integer",
+                        "description": "How precise should the load test be in percent",
+                        "minimum": 0,
+                        "maximum": 100
+                      }
+                    },
+                    "required": [
+                      "load_profile",
+                      "base_load",
+                      "accuracy"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "parametrization": {
+                "type": "object",
+                "description": "References to data sources for parametrization",
+                "properties": {
+                  "path_variables": {
+                    "type": "object",
+                    "patternProperties": {
+                      ".*": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "url_parameter": {
+                    "type": "object",
+                    "patternProperties": {
+                      ".*": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "request_parameter": {
+                    "type": "object",
+                    "patternProperties": {
+                      ".*": {
+                        "type": "string"
+                      }
+                    },
+                    "maxProperties": 1
+                  },
+                  "payload": {
+                    "type": "object",
+                    "patternProperties": {
+                      ".*": {
+                        "type": "string"
+                      }
+                    },
+                    "maxProperties": 1
+                  }
+                },
+                "required": [
+                  "path_variables",
+                  "url_parameter",
+                  "request_parameter",
+                  "payload"
+                ],
+                "additionalProperties": false
+              },
+              "response_measure": {
+                "type": "object",
+                "properties": {
+                  "response_time": {
+                    "type": "string",
+                    "description": "",
+                    "enum": ["SATISFIED", "TOLERATED", "FRUSTRATED"]
+                  }
+                },
+                "required": [
+                  "response_time"
+                ]
+              },
+              "result_metrics": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "artifact",
+              "stimulus",
+              "parametrization",
+              "response_measure",
+              "result_metrics"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "monitoring", 
+        "resilience",
+        "loadtests"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "context",
+    "environment",
+    "runtime_quality_analysis"
+  ],
+  "additionalProperties": false
+}

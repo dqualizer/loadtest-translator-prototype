@@ -1,0 +1,219 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "version": {
+          "type": "integer",
+          "description": "Version of this mapping representation",
+          "const": 1.0
+      },
+      "context": {
+        "type": "string",
+        "description": "The name of the Bounded Context to which this mapping belongs",
+        "minLength": 1
+      },
+      "server_info": {
+        "type": "array",
+        "description": "List of different hosts",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "properties": {
+            "host": {
+              "type": "string",
+              "description": "URL of this host, also logical URLs",
+              "examples": ["localhost:8080", "10.10.110.1:5782", "https://aws.amazon.com/dqualizer-runtime-testing-tool/"]
+            },
+            "environment": {
+              "type": "string",
+              "description": "The environment this host belongs to",
+              "examples": ["PROD", "TEST", "INT", "QUAL"]
+            }
+          },
+          "required": [
+            "host",
+            "environment"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "objects": {
+        "type": "array",
+        "description": "List of technical entities that represent Work Objects and Actors from Domain Stories",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "properties": {
+            "dq_id": {
+              "type": "string",
+              "description": "Unique ID, which references this object within dqualizer"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of this object inside the Domain Story, if this object is not part of a domain story, use the class name"
+            },
+            "operation_id": {
+              "type": "string",
+              "description": "Fully qualified name of this artifact",
+              "examples": ["wps.arthousecinema.app.KinoApp"]
+            },
+            "type": {
+              "type": "string",
+              "description": "Type of this object",
+              "enum": ["module", "class", "interface", "variable"]
+            },
+            "implements": {
+              "type": "array",
+              "description": "References to interfaces or abstract classes that are implemented by this object",
+              "uniqueItems": true,
+              "items": {
+                  "type": "string"
+              }
+            },
+            "objects": {
+              "type": "array",
+              "description": "References to other objects that are inside this class",
+              "uniqueItems": true,
+              "items": {
+                  "type": "string"
+              }
+            },
+            "activities": {
+              "type": "array",
+              "description": "List of objects that represent Activities from Domain Stories",
+              "items": {
+                "type": "object",
+                "uniqueItems": true,
+                "properties": {
+                  "dq_id": {
+                    "type": "string",
+                    "description": "Unique ID, which references this object within dqualizer"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of this object inside the Domain Story"
+                  },
+                  "operation_id": {
+                    "type": "string",
+                    "description": "Name of this object inside the source code"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Type of this object",
+                    "enum": ["method", "class"]
+                  },
+                  "parameter": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "description": "Parameter for this object",
+                    "items": {
+                        "type": "string"
+                    }
+                  },
+                  "endpoint": {
+                    "type": "object",
+                    "description": "Information about the API endpoint of this object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "Location of this endpoint",
+                        "examples": ["/kinoapp/{version}/open", "/graphql"]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "description": "Operation of this object",
+                        "examples": ["GET", "POST", "QUERY", "MUTATION"]
+                      },
+                      "path_variables": {
+                        "type": "object",
+                        "description": "References to data sources that can be used for url parameters, like Ids, for this method",
+                        "patternProperties": {
+                          ".*": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "url_parameter": {
+                        "type": "object",
+                        "description": "References to data sources that can be used for url parameters for this method",
+                        "patternProperties": {
+                          ".*": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "request_parameter": {
+                        "type": "object",
+                        "description": "References to data sources that can be used for request parameters, like headers or cookies, for this method",
+                        "patternProperties": {
+                          ".*": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "payload": {
+                        "type": "object",
+                        "description": "References to data sources that can be used for payload bodies for this method",
+                        "patternProperties": {
+                          ".*": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "responses": {
+                        "type": "array",
+                        "description": "Anything, that this endpoints returns",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "expected_code": {
+                              "type": "integer"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "path_variables",
+                      "url_parameter",
+                      "request_parameter",
+                      "payload",
+                      "responses"
+                    ]
+                  }
+                },
+                "required": [
+                  "dq_id",
+                  "name",
+                  "operation_id",
+                  "type",
+                  "parameter"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "dq_id",
+            "name",
+            "operation_id",
+            "type"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "version",
+      "context",
+      "server_info",
+      "objects"
+    ],
+    "additionalProperties": false
+  }
