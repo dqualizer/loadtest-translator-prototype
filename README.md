@@ -59,6 +59,16 @@ Following external tools have been used:
 > To use the _openapi-adapter_, start _ddd-autohaus-tactical-design-werkstattauftrag_ first and then _openapi-adapter_, both with `mvn spring-boot:run`
 
 ---
+## Output
+
+In the console you can see log messages which, give information about the current state of the
+prototype.
+Additionally, inside the [docker-output](docker-output) folder all created k6-scripts as well as
+the console output of k6 are saved. The k6-scripts are saved as js-files. 
+The k6-console output is saved in txt-files. For every time a loadtest is repeated, a new logging
+file will be used.
+
+---
 ## Further information
 
 #### InfluxDB (v2)

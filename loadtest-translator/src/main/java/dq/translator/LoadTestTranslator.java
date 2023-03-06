@@ -7,8 +7,6 @@ import dq.dqlang.modeling.*;
 import dq.exception.EnvironmentNotFoundException;
 import dq.exception.IDNotFoundException;
 import dq.exception.TooManyReferencesException;
-import dq.mock.URLRetrieverMock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -16,17 +14,13 @@ import java.util.*;
 @Component
 public class LoadTestTranslator {
 
-    @Autowired
-    private URLRetrieverMock urlRetriever;
-
     public LoadTestConfig translate(Modeling modeling, Mapping mapping) {
         LinkedHashSet<MappingObject> objects = mapping.getObjects();
 
         int version = modeling.getVersion();
         String context = modeling.getContext();
         String environment = modeling.getEnvironment();
-        String host = this.getHost(mapping, environment);
-        String baseURL = this.getURL(host);
+        String baseURL = this.getHost(mapping, environment);
 
         LinkedHashSet<LoadTest> loadTests = new LinkedHashSet<>();
         LinkedHashSet<ModeledLoadTest> modeledLoadTests = modeling.getRqa().getLoadtests();
@@ -62,8 +56,6 @@ public class LoadTestTranslator {
         if (maybeServerInfo.isPresent()) return maybeServerInfo.get().getHost();
         else throw new EnvironmentNotFoundException(environment);
     }
-
-    private String getURL(String url) { return urlRetriever.retrieve(url); }
 
     private Endpoint getEndpoint(LinkedHashSet<MappingObject> objects, ModeledLoadTest modeledLoadTest) {
         Artifact artifact = modeledLoadTest.getArtifact();

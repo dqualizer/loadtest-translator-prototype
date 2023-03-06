@@ -91,8 +91,9 @@ public class PathsAdapter {
 
             String type = "";
             if (schema.has("$ref")) {
+                //example for a type reference: "#/components/schemas/Book"
                 String bodyTypeReference = schema.getString("$ref");
-                //leave only the name of the data type
+                //leave only the name of the data type and remove the reference-path
                 type = bodyTypeReference.replaceAll("(.*)(?<=./)", "");
             } else if (schema.has("type")) type = schema.getString("type");
 

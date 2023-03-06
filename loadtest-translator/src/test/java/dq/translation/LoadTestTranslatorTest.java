@@ -4,15 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dq.dqlang.loadtest.LoadTestConfig;
 import dq.dqlang.mapping.Mapping;
 import dq.dqlang.modeling.Modeling;
-import dq.mock.URLRetrieverMock;
 import dq.translator.LoadTestTranslator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,13 +14,9 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 public class LoadTestTranslatorTest {
 
-    @InjectMocks
-    private LoadTestTranslator translator;
-    @Mock
-    private URLRetrieverMock urlRetriever;
+    private final LoadTestTranslator translator = new LoadTestTranslator();
 
     private final String loadTestFile = "loadtest-werkstatt.json";
     private final String mappingFile = "mapping-werkstatt.json";
@@ -40,7 +29,6 @@ public class LoadTestTranslatorTest {
         String mappingJSON = this.loadMapping(mappingFile);
         String modelingJSON = this.loadModeling(modelingFile);
         ObjectMapper objectMapper = new ObjectMapper();
-        Mockito.when(urlRetriever.retrieve(ArgumentMatchers.anyString())).thenReturn(host);
 
         LoadTestConfig loadTestConfig = objectMapper.readValue(loadTestConfigJSON, LoadTestConfig.class);
         Mapping mapping = objectMapper.readValue(mappingJSON, Mapping.class);
