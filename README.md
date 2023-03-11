@@ -75,6 +75,15 @@ file will be used.
 ![Overview of all components](ComponentOverview.png)
 
 ---
+## dqlang Schemas
+
+You can find the schemas for dqlang descriptions in the folder 
+[dqlang-schemas](dqlang-schemas).
+
+It contains the schema for the modeling, the mapping, the loadtest 
+configuration as well as the api schema
+
+---
 ## Further information
 
 #### InfluxDB (v2)

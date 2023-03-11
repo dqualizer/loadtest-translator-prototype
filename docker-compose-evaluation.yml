@@ -20,7 +20,7 @@ services:
       - "8070:8070"
     environment:
       - SPRING_RABBITMQ_HOST=rabbit
-      - MODELING_FILE=modeling-sales-3.json
+      - MODELING_FILE=modeling-sales-3.json # CHANGE MODELING FILE HERE
     depends_on:
       rabbit:
         condition: service_healthy

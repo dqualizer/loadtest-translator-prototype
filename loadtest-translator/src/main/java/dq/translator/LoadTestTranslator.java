@@ -113,8 +113,12 @@ public class LoadTestTranslator {
         Map<String, String> urlParameter = parametrization.getUrlParameter();
         Map<String, String> requestParameter = parametrization.getRequestParameter();
         Map<String, String> payload = parametrization.getPayload();
-        if(urlParameter.size() > 1 || requestParameter.size() > 1 || payload.size() > 1)
-            throw new TooManyReferencesException(urlParameter.keySet(), requestParameter.keySet(), payload.keySet());
+        if(urlParameter.size() > 1)
+            throw new TooManyReferencesException(urlParameter.keySet());
+        if(requestParameter.size() > 1)
+            throw new TooManyReferencesException(requestParameter.keySet());
+        if(payload.size() > 1)
+            throw new TooManyReferencesException(payload.keySet());
 
         Endpoint adoptedEndpoint = new Endpoint(
                 field, operation, pathVariables, urlParameter, requestParameter, payload, responses

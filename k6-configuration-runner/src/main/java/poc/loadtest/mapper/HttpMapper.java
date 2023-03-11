@@ -1,14 +1,25 @@
 package poc.loadtest.mapper;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import poc.config.PathConfig;
 import poc.dqlang.request.Request;
+import poc.loadtest.exception.NoReferenceFoundException;
 import poc.loadtest.exception.UnknownRequestTypeException;
+import poc.util.MyFileReader;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
 public class HttpMapper implements k6Mapper {
+
+    @Autowired
+    private PathConfig paths;
+    @Autowired
+    private MyFileReader reader;
 
     @Override
     public String map(Request request) {
@@ -25,12 +36,18 @@ public class HttpMapper implements k6Mapper {
         };
 
         Map<String, String> pathVariables = request.getPathVariables();
-        Set<String> variables = pathVariables.keySet();
+        Optional<String> maybeReference = pathVariables.values().stream().findFirst();
+        if(maybeReference.isPresent()) {
+            String referencePath = paths.getResourcePath() + maybeReference.get();
+            String pathVariablesString = reader.readFile(referencePath);
+            JSONObject pathVariablesJSON = new JSONObject(pathVariablesString);
 
-        for(String variable : variables) {
-            String randomPathVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
+            Set<String> variables = pathVariablesJSON.keySet();
+            for(String variable : variables) {
+                String randomPathVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
                     newLine, variable, variable, variable, newLine);
-            httpBuilder.append(randomPathVariable);
+                httpBuilder.append(randomPathVariable);
+            }
         }
 
         Map<String, String> payload = request.getPayload();
@@ -60,7 +77,7 @@ public class HttpMapper implements k6Mapper {
     }
 
     private String exportFunctionScript() {
-        return "export default function() {";
+        return String.format("%sexport default function() {%s", newLine, newLine);
     }
 
     private String randomPayloadScript() {

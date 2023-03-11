@@ -1,5 +1,6 @@
 package poc.loadtest.mapper;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import poc.config.PathConfig;
@@ -23,18 +24,21 @@ public class PathVariablesMapper implements k6Mapper {
     public String map(Request request) {
         StringBuilder pathVariablesBuilder = new StringBuilder();
         Map<String, String> pathVariables = request.getPathVariables();
-        Set<String> variables = pathVariables.keySet();
+        Optional<String> maybeReference = pathVariables.values().stream().findFirst();
+        if(maybeReference.isEmpty()) throw new NoReferenceFoundException(pathVariables);
 
+        String referencePath = paths.getResourcePath() + maybeReference.get();
+        String pathVariablesString = reader.readFile(referencePath);
+        String pathVariablesScript = String.format("%sconst path_variables = %s",
+                newLine, pathVariablesString);
+        pathVariablesBuilder.append(pathVariablesScript);
+
+        JSONObject pathVariablesJSON = new JSONObject(pathVariablesString);
+        Set<String> variables = pathVariablesJSON.keySet();
         for(String variable : variables) {
-            String referencePath = paths.getResourcePath() + pathVariables.get(variable);
-            String pathVariablesObject = reader.readFile(referencePath);
-            String pathVariablesScript =
-                    """
-                    const %s_data = %s
-                    const %s_array = %s_data['path_variables'];
-                    
-                    """.formatted(variable, pathVariablesObject, variable, variable);
-            pathVariablesBuilder.append(pathVariablesScript);
+            String particularPathVariablesScript = String.format("%sconst %s_array = path_variables['%s'];",
+                    newLine, variable, variable);
+            pathVariablesBuilder.append(particularPathVariablesScript);
         }
 
         return pathVariablesBuilder.toString();
