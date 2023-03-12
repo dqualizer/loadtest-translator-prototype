@@ -17,6 +17,10 @@ public class ConfigReceiver {
     @Autowired
     private ConfigRunner runner;
 
+    /**
+     * Import the k6 configuration and start the configuration runner
+     * @param config An inofficial k6 configuration
+     */
     @RabbitListener(queues = Constant.QUEUE)
     public void receive(@Payload Config config) {
         runner.start(config);

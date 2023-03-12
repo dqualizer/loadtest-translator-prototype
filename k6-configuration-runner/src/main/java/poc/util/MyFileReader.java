@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Helps to read a local file and get the content as a string
+ * ( Handle the try-catch-block )
+ */
 @Component
 public class MyFileReader {
 

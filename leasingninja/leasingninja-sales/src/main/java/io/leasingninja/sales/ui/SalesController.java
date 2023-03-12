@@ -22,7 +22,7 @@ import io.leasingninja.sales.domain.Customer;
 import io.leasingninja.sales.domain.SignDate;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class SalesController {
 
     private static Logger logger = LoggerFactory.getLogger(SalesController.class);

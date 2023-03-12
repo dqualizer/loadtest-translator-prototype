@@ -11,12 +11,22 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Loads an OpenAPI-schema from a running application
+ */
 @Component
 public class SchemaLoader {
 
     @Value("${api.port:9000}")
     private String apiPort;
 
+    /**
+     * Loads an Open-API-schema from localhost:<apiPort>/v3/api-docs
+     * @return A JSONObject with the OpenAPI-Schema
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public JSONObject load() throws URISyntaxException, IOException, InterruptedException {
         String serverURI = "http://127.0.0.1:" + apiPort +"/v3/api-docs";
         URI uri = new URI(serverURI);

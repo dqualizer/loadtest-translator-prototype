@@ -17,6 +17,10 @@ public class LoadTestConfigReceiver {
     @Autowired
     private AdaptationManager manager;
 
+    /**
+     * Import the loadtest configuration and start the adaptation process
+     * @param loadTestConfig Imported loadtest configuration
+     */
     @RabbitListener(queues = Constant.LOADTEST_QUEUE)
     public void receive(@Payload LoadTestConfig loadTestConfig) {
         manager.start(loadTestConfig);

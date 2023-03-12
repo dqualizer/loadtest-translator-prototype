@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 /**
- * Imports all available Mappings and searches the mapping to the current Bounded Context
+ * Imports all available mapping-files and searches the mapping for the current Bounded Context
  */
 @Component
 public class MappingLoader {
@@ -23,6 +23,13 @@ public class MappingLoader {
     @Autowired
     private PathConfig paths;
 
+    /**
+     * Find a mapping with the help of a Bounded Context
+     * @param context Bounded Context from the modeling
+     * @return Mapping for the needed Bounded Context
+     * @throws IOException
+     * @throws ContextNotFoundException If no Mapping with needed Bounded Context was found
+     */
     public Mapping load(String context) throws IOException {
         String mappingFolder = paths.getMappingFolder();
 
@@ -37,6 +44,11 @@ public class MappingLoader {
         else throw new ContextNotFoundException(context);
     }
 
+    /**
+     * Transform a JSON-String to a Mapping java object
+     * @param json Mapping as JSON-String
+     * @return Mapping as Java object
+     */
     private Mapping readJSON(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {

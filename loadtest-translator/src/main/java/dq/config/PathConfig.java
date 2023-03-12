@@ -1,8 +1,11 @@
 package dq.config;
 
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+/**
+ * Configuration for local file paths
+ */
+@Configuration
 public class PathConfig {
 
     private final String mappingFolder = "mapping";

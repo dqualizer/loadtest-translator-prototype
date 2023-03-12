@@ -1,5 +1,8 @@
 package dq.mock.config.rabbit;
 
+/**
+ * Constants for RabbitMQ
+ */
 public class Constant {
 
     public final static String QUEUE = "modeling";

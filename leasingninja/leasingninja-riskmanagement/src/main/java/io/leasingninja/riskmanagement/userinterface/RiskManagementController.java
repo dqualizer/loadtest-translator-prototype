@@ -21,7 +21,7 @@ import io.leasingninja.riskmanagement.domain.CreditRating;
 import io.leasingninja.riskmanagement.domain.VoteResult;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class RiskManagementController {
 
     private static Logger logger = LoggerFactory.getLogger(RiskManagementController.class);

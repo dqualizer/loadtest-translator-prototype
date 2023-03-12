@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
- * Exports a dqualizer API schema via RabbitMQ
+ * Exports a dqlang API-schema via RabbitMQ
  */
 @Component
 public class SchemaProducer {
@@ -25,6 +25,11 @@ public class SchemaProducer {
     @Autowired
     private PathConfig paths;
 
+    /**
+     * Sends the adapted API-Schema to a queue (normally to dqedit)
+     * @param schema Adapted API-schema
+     * @return String (only for RabbitMQ)
+     */
     public String produce(APISchema schema) {
         this.writeToFile(schema);
         template.convertAndSend(
@@ -36,6 +41,11 @@ public class SchemaProducer {
         return "API SCHEMA WAS PRODUCED";
     }
 
+    /**
+     * Write the adapted API-schema to a local file.
+     * Only needed for development
+     * @param schema Adapted API-schema
+     */
     private void writeToFile(APISchema schema) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());

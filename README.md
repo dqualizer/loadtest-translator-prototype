@@ -7,7 +7,7 @@ This prototype demonstrates how it´s possible to translate a
 subject modeling with the help of an architecture mapping to a load test 
 configuration. Additionally, the test configuration will be turned into 
 k6 scripts, which will be executed. The test results will be exported to an
-influxDB and can be viewed in Grafana.
+InfluxDB and can be viewed in Grafana.
 
 The prototype consists of the following modules:
 
@@ -22,18 +22,18 @@ A foreign DDD-environment to create an architecture mapping for and to run load 
 A demonstrative component to adapt an OpenAPI-schema to a _**dqlang**_-API-Schema.
 
 - [modeler-mock](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/modeler-mock):
-A mocked component of _**dqedit**_ that is used to produce a modeling.
+A mocked component of _**dqanalyzer**_ that is used to produce a modeling.
 
 - [loadtest-translator](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/loadtest-translator):
 One part of _**dqtranslator**_ that is responsible for combining the modeling 
-with the mapping and produce a _**dqlang**_-load-test-configuration from it.
+with the mapping and produce a _**dqlang**_-loadtest-configuration from it.
 
 - [k6-adapter](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/k6-adapter):
-A component used to adapt a _**dqlang**_-load-test-configuration into a configuration
+A component used to adapt a _**dqlang**_-loadtest-configuration into a configuration
 better suited for the load testing tool [k6](https://k6.io/docs/).
 
 - [k6-configuration-runner](https://github.com/dqualizer/loadtest-translator-prototype/tree/main/k6-configuration-runner):
-A component that transforms adapted load test configuration into k6 scripts.
+A component that transforms adapted loadtest configuration into k6 scripts.
 These scripts will be executed. The test results will be exported to InfluxDB(v2) and
 can be viewed in Grafana.
 ---
@@ -73,6 +73,15 @@ file will be used.
 ## Component Overview
 
 ![Overview of all components](ComponentOverview.png)
+
+---
+## dqlang schemas
+
+You can find the schemas for dqlang descriptions in the folder 
+[dqlang-schemas](dqlang-schemas).
+
+It contains the schema for the modeling, the mapping, the loadtest 
+configuration as well as the api-schema.
 
 ---
 ## Further information

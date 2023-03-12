@@ -1,4 +1,4 @@
-package dq.adapter;
+package dq.input;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dq.config.PathConfig;
@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Load a local file with load test constants
+ */
 @Component
 public class ConstantsLoader {
 

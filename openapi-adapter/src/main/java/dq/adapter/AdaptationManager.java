@@ -14,6 +14,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
+/**
+ * Manages the whole adaptation process
+ * 1. Load an OpenAPI-schema from a running application
+ * 2. Adapt the OpenAPI-schema to a dqlang-API-schema
+ * 3. Export the adapted API-schema
+ */
 @Component
 public class AdaptationManager {
 
@@ -25,6 +31,10 @@ public class AdaptationManager {
     @Autowired
     private SchemaProducer producer;
 
+    /**
+     * Method starts as soon as Spring is ready.
+     * Starts the Adaptation process
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void start() {
         try {

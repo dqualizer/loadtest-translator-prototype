@@ -16,6 +16,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * The execution of an inoffical k6 configuration consists of 4 steps:
+ * 1. For every loadtest inside the configuration, create a k6-script (Javascript)
+ * 2. Every script will be executed at least once or as many times as specified repetitions
+ * 3. For every execution the k6 console log will be written to text file
+ * 4. After one execution, the result metrics will be exported to InfluxDB
+ */
 @Component
 public class ConfigRunner {
 
@@ -31,6 +38,10 @@ public class ConfigRunner {
     @Autowired
     private ProcessLogger processLogger;
 
+    /**
+     * Start the configuration-runner
+     * @param config Received inofficial k6-configuration
+     */
     public void start(Config config) {
         logger.info("### LOAD TEST CONFIGURATION RECEIVED ###");
         try {
@@ -42,6 +53,12 @@ public class ConfigRunner {
         }
     }
 
+    /**
+     * Read the configuration and start with the text execution
+     * @param config Received inofficial k6-configuration
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void run(Config config) throws IOException, InterruptedException {
         ObjectMapper om = new ObjectMapper();
         logger.info(om.writeValueAsString(config));
@@ -52,6 +69,7 @@ public class ConfigRunner {
         LinkedHashSet<LoadTest> loadTests = config.getLoadTests();
         int testCounter = 1;
 
+        //iterate through all loadtests inside the configuration
         for(LoadTest loadTest : loadTests) {
             List<String> script = mapper.getScript(baseURL, loadTest);
             String scriptPath = paths.getScript(testCounter);
@@ -61,6 +79,7 @@ public class ConfigRunner {
             int repetition = loadTest.getRepetition();
             int runCounter = 1;
 
+            //repeat one loadtest if as many times as specified in the configuration
             while (runCounter <= repetition) {
                 int exitValue = this.runTest(scriptPath, testCounter, runCounter);
                 logger.info("### LOAD TEST " +testCounter+ "-" +runCounter+ " FINISHED WITH VALUE " +exitValue+ " ###");
@@ -71,6 +90,15 @@ public class ConfigRunner {
         logger.info("### LOAD TESTING COMPLETE ###");
     }
 
+    /**
+     * Run one k6-script, write the k6 console logs to text files and export the k6 result metrics to influxDB
+     * @param scriptPath Location of the created k6-script
+     * @param testCounter Current loadtest number
+     * @param runCounter Current repetition number
+     * @return Exitcode of the k6 process
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private int runTest(String scriptPath, int testCounter, int runCounter) throws IOException, InterruptedException {
         String influxHost = hostRetriever.getInfluxHost();
         String command = "k6 run " + scriptPath + " --out xk6-influxdb=http://" + influxHost + ":8086";

@@ -15,6 +15,11 @@ public class LoadTestProducer {
     @Autowired
     private RabbitTemplate template;
 
+    /**
+     * Send the loadtest configuration to the k6-adapter
+     * @param loadTestConfig A created loadtest configuration
+     * @return String (only for RabbitMQ)
+     */
     public String produce(LoadTestConfig loadTestConfig) {
         template.convertAndSend(
                 Constant.LOADTEST_EXCHANGE,

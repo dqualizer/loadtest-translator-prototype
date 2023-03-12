@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
+/**
+ * Manages the whole adaptation process
+ * 1. Adapt the imported loadtest configuration to a k6-configuration
+ * 2. Export the k6-configuration
+ */
 @Component
 public class AdaptationManager {
 

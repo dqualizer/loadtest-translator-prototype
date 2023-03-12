@@ -1,18 +1,21 @@
 package dq.adapter;
 
 import dq.dqlang.constants.LoadTestConstants;
-import dq.dqlang.constants.accuracy.LoadPeak;
 import dq.dqlang.constants.accuracy.Repetition;
 import dq.dqlang.k6.K6Config;
 import dq.dqlang.k6.K6LoadTest;
 import dq.dqlang.k6.options.Options;
 import dq.dqlang.k6.request.Request;
 import dq.dqlang.loadtest.*;
+import dq.input.ConstantsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashSet;
 
+/**
+ * Adapts a loadtest configuration to an inoffical k6-configuration
+ */
 @Component
 public class K6Adapter {
 
@@ -22,6 +25,15 @@ public class K6Adapter {
     private EndpointAdapter endpointAdapter;
     @Autowired
     private StimulusAdapter stimulusAdapter;
+
+    /**
+     * Adapt the loadtest configuration. It consists of 3 steps:
+     * 1. Adapt global test configuration
+     * 2. Adapt the stimulus for every loadtest
+     * 3. Adapt the endpoints for every loadtest
+     * @param loadTestConfig The received dqlang load test configuration
+     * @return An adapted loadtest configuration for k6
+     */
 
     public K6Config adapt(LoadTestConfig loadTestConfig) {
         String name = loadTestConfig.getContext();
@@ -46,6 +58,11 @@ public class K6Adapter {
         return k6Config;
     }
 
+    /**
+     * Calculate how many times a loadtest should be repeated based on the defined accuracy
+     * @param stimulus Stimulus for one loadtest
+     * @return The amount of repetitions
+     */
     private int calculateRepetition(Stimulus stimulus) {
         String loadProfile = stimulus.getLoadProfile();
         if(loadProfile.equals("CONSTANT_LOAD")) return 1;

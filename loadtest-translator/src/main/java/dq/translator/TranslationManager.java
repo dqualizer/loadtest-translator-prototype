@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * Manages the whole translation process
+ * 1. Load a mapping for the Bounded Context of the modeling
+ * 2. Translate the modeling with the help of the mapping to a loadtest configuration
+ * 3. Export the loadtest configuration
+ */
 @Component
 public class TranslationManager {
 

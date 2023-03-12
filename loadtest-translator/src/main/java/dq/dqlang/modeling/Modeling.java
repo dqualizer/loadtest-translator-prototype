@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * Java class for the modeling representation
+ * Java class for the modeling
  */
 @Getter
 @ToString

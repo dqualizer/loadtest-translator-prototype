@@ -1,14 +1,28 @@
 package poc.loadtest.mapper;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import poc.config.PathConfig;
 import poc.dqlang.request.Request;
+import poc.loadtest.exception.NoReferenceFoundException;
 import poc.loadtest.exception.UnknownRequestTypeException;
+import poc.util.MyFileReader;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Maps the specified request to a k6 'default function()'
+ */
 @Component
 public class HttpMapper implements k6Mapper {
+
+    @Autowired
+    private PathConfig paths;
+    @Autowired
+    private MyFileReader reader;
 
     @Override
     public String map(Request request) {
@@ -24,18 +38,24 @@ public class HttpMapper implements k6Mapper {
             default -> throw new UnknownRequestTypeException(type);
         };
 
+        //Code for choosing one random variable for every existing path variable
         Map<String, String> pathVariables = request.getPathVariables();
-        Set<String> variables = pathVariables.keySet();
+        Optional<String> maybeReference = pathVariables.values().stream().findFirst();
+        if(maybeReference.isPresent()) {
+            String referencePath = paths.getResourcePath() + maybeReference.get();
+            String pathVariablesString = reader.readFile(referencePath);
+            JSONObject pathVariablesJSON = new JSONObject(pathVariablesString);
 
-        for(String variable : variables) {
-            String randomPathVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
-                    newLine, variable, variable, variable, newLine);
-            httpBuilder.append(randomPathVariable);
+            Set<String> variables = pathVariablesJSON.keySet();
+            for(String variable : variables) {
+                String randomPathVariable = this.randomPathVaribleScript(variable);
+                httpBuilder.append(randomPathVariable);
+            }
         }
 
+        //Code for using the request-parameter and payload inside the http method
         Map<String, String> payload = request.getPayload();
         Map<String, String> queryParams = request.getQueryParams();
-
         String extraParams = "";
         if(!payload.isEmpty() || !queryParams.isEmpty()) {
             if(!payload.isEmpty()  && !queryParams.isEmpty()) {
@@ -60,7 +80,13 @@ public class HttpMapper implements k6Mapper {
     }
 
     private String exportFunctionScript() {
-        return "export default function() {";
+        return String.format("%sexport default function() {%s",
+                newLine, newLine);
+    }
+
+    private String randomPathVaribleScript(String variable) {
+        return String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
+                newLine, variable, variable, variable, newLine);
     }
 
     private String randomPayloadScript() {

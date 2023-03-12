@@ -15,6 +15,11 @@ public class K6ConfigProducer {
     @Autowired
     private RabbitTemplate template;
 
+    /**
+     * Send the k6 configuration to the k6-configuration-runner
+     * @param k6Config A loadtest configuration better suited for k6
+     * @return String (only for RabbitMQ)
+     */
     public String produce(K6Config k6Config) {
         template.convertAndSend(
                 Constant.K6_EXCHANGE,

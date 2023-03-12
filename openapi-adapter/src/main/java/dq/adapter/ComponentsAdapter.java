@@ -10,9 +10,17 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Adapts the components (data-schemas) from an OpenAPI-schema
+ */
 @Component
 public class ComponentsAdapter {
 
+    /**
+     * Adapt the data-schemas
+     * @param componentsObject A JSONObject with all component schemas
+     * @return An adapted data-schema
+     */
     public Map<String, DataSchema> getDataSchemas(JSONObject componentsObject) {
         Map<String, DataSchema> dataSchemas = new LinkedHashMap<>();
         Set<String> componentTypes = componentsObject.keySet();

@@ -7,19 +7,26 @@ import dq.dqlang.constants.accuracy.LoadPeak;
 import dq.dqlang.k6.options.*;
 import dq.dqlang.loadtest.Stimulus;
 import dq.exception.UnknownTermException;
+import dq.input.ConstantsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.sound.sampled.Line;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
+/**
+ * Adapts the stimulus to a k6 'options' object
+ */
 @Component
 public class StimulusAdapter {
 
     @Autowired
     private ConstantsLoader constantsLoader;
 
+    /**
+     * Create a k6 'options' objects based on the stimulus for the loadtest
+     * @param stimulus Stimulus for the loadtest
+     * @return A k6 'options' object
+     */
     public Options adaptStimulus(Stimulus stimulus) {
         String loadProfile = stimulus.getLoadProfile();
         Scenario scenario;
@@ -36,6 +43,11 @@ public class StimulusAdapter {
         return options;
     }
 
+    /**
+     * Create a k6 'scenario' object for the load_profile 'LOAD_PEAK'
+     * @param stimulus Stimulus for the loadtest
+     * @return A k6 'scenario' object with virtual user ramp-up
+     */
     public Scenario getLoadPeakScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
         LoadPeak loadPeak = constants.getAccuracy().getLoadPeak();
@@ -69,6 +81,11 @@ public class StimulusAdapter {
         return scenario;
     }
 
+    /**
+     * Create a k6 'scenario' object for the load_profile 'LOAD_INCREASE'
+     * @param stimulus Stimulus for the loadtest
+     * @return A k6 'scenario' object with increasing virtual user ramp-up
+     */
     public Scenario getLoadIncreaseScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
         LoadIncrease loadIncrease = constants.getAccuracy().getLoadIncrease();
@@ -91,6 +108,14 @@ public class StimulusAdapter {
         return scenario;
     }
 
+    /**
+     * Create an ordered set of stages for the 'INCREASE_LOAD' load_profile
+     * @param stageDuration The duration of one single stage
+     * @param startTarget The amount of users at the first stage
+     * @param endTarget The amount of users at the last stage
+     * @param exponent How fast should the amount of users increase
+     * @return An ordered set of stages
+     */
     private LinkedHashSet<Stage> getIncreasingStages(String stageDuration, int startTarget, int endTarget, int exponent) {
         LinkedHashSet<Stage> stages = new LinkedHashSet<>();
         int stageCounter = 1;
@@ -109,6 +134,11 @@ public class StimulusAdapter {
         return stages;
     }
 
+    /**
+     * Create a k6 'scenario' object for the load_profile 'CONSTANT_LOAD'
+     * @param stimulus Stimulus for the loadtest
+     * @return A k6 'scenario' object with constant virtual users
+     */
     public Scenario getConstantLoadScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
         ConstantLoad constantLoad = constants.getAccuracy().getConstantLoad();
