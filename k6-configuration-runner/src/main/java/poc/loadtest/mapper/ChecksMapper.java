@@ -6,6 +6,9 @@ import poc.dqlang.request.Request;
 
 import java.util.LinkedHashSet;
 
+/**
+ * Maps the expected responses to Javascript-Code
+ */
 @Component
 public class ChecksMapper implements k6Mapper {
 

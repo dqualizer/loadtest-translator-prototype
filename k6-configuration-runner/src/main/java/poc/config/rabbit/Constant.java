@@ -1,7 +1,7 @@
 package poc.config.rabbit;
 
 /**
- * Constant values necessary for RabbitMQ
+ * Constants for RabbitMQ
  */
 public class Constant {
 

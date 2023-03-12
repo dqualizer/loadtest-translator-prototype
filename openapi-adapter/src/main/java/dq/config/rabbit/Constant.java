@@ -1,5 +1,8 @@
 package dq.config.rabbit;
 
+/**
+ * Constants for RabbitMQ
+ */
 public class Constant {
 
     public final static String QUEUE = "api";

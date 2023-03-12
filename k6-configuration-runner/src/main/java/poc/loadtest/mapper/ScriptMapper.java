@@ -14,6 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Maps the one loadtest from the inofficial k6-configuration to k6-script
+ */
 @Component
 public class ScriptMapper implements k6Mapper {
 
@@ -30,6 +33,13 @@ public class ScriptMapper implements k6Mapper {
     @Autowired
     private ChecksMapper checksMapper;
 
+    /**
+     * Map one loadtest to a k6-script
+     * @param baseURL The baseURL for all loadtests inside the inofficial k6-configuration
+     * @param loadTest One specified loadtest
+     * @return A list of strings, which can be written to a file
+     * @throws JsonProcessingException
+     */
     public List<String> getScript(String baseURL, LoadTest loadTest) throws JsonProcessingException {
         List<String> script = new LinkedList<>();
 
@@ -77,6 +87,13 @@ public class ScriptMapper implements k6Mapper {
         return requestBuilder.toString();
     }
 
+    /**
+     * Write a the beginning of Javascript-file
+     * @param baseURL The baseURL for all loadtests inside the inofficial k6-configuration
+     * @param options The k6 'options' object
+     * @return String that can be written at the beginning of a Javascript file
+     * @throws JsonProcessingException
+     */
     private String startScript(String baseURL, Options options) throws JsonProcessingException {
         String optionsString = objectMapper.writeValueAsString(options);
         String trackDataPerURL = this.trackDataPerURLInitScript();
@@ -93,6 +110,10 @@ public class ScriptMapper implements k6Mapper {
                 """.formatted(trackDataPerURL, baseURL, optionsString);
     }
 
+    /**
+     * Write functions to track data for every url used during the loadtest
+     * @return String that can be written inside a Javascript file
+     */
     private String trackDataPerURLInitScript() {
         return """
                 import {Counter} from 'k6/metrics';

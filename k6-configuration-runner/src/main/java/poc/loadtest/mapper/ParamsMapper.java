@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Maps the request-parameter to Javascript-Code
+ */
 @Component
 public class ParamsMapper implements k6Mapper {
 

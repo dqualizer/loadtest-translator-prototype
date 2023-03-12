@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.LinkedHashSet;
 
 /**
- * Java class for the mapping representation
+ * Java class for the architecture-mapping
  */
 @Getter
 @ToString

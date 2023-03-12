@@ -10,6 +10,9 @@ import poc.util.MyFileReader;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Maps the url-parameter to Javascript-Code
+ */
 @Component
 public class QueryParamsMapper implements k6Mapper {
 

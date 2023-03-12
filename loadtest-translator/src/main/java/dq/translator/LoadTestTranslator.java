@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+/**
+ * Translates the modeling with the help of a mapping to a loadtest configuration
+ */
 @Component
 public class LoadTestTranslator {
 
@@ -24,8 +27,8 @@ public class LoadTestTranslator {
 
         LinkedHashSet<LoadTest> loadTests = new LinkedHashSet<>();
         LinkedHashSet<ModeledLoadTest> modeledLoadTests = modeling.getRqa().getLoadtests();
-        for(ModeledLoadTest modeledLoadTest: modeledLoadTests) {
 
+        for(ModeledLoadTest modeledLoadTest: modeledLoadTests) {
             String description = modeledLoadTest.getDescription();
             Stimulus stimulus = modeledLoadTest.getStimulus();
             ResponseMeasure responseMeasure = modeledLoadTest.getResponseMeasure();
@@ -48,6 +51,12 @@ public class LoadTestTranslator {
         return loadTestConfig;
     }
 
+    /**
+     * Get the host-address through the environment, specified in the modeling
+     * @param mapping The architecture-mapping
+     * @param environment The specified environment in the modeling
+     * @return Host-address for the specified environment
+     */
     private String getHost(Mapping mapping, String environment) {
         LinkedHashSet<ServerInfo> serverInfos = mapping.getServerInfo();
         Optional<ServerInfo> maybeServerInfo = serverInfos.stream()
@@ -57,16 +66,24 @@ public class LoadTestTranslator {
         else throw new EnvironmentNotFoundException(environment);
     }
 
+    /**
+     * Get one endpoint for an activity mentioned in the modeled loadtest
+     * @param objects A list of all objects inside the mapping
+     * @param modeledLoadTest A modeled loadtest inside the modeling
+     * @return One endpoint object
+     */
     private Endpoint getEndpoint(LinkedHashSet<MappingObject> objects, ModeledLoadTest modeledLoadTest) {
         Artifact artifact = modeledLoadTest.getArtifact();
         Parametrization parametrization = modeledLoadTest.getParametrization();
         String objectID = artifact.getObject();
         String activityID = artifact.getActivity();
 
+        //Find necessary object
         Optional<MappingObject> maybeObject = objects.stream()
                 .filter(object -> object.getDqID().equals(objectID))
                 .findFirst();
         if(maybeObject.isPresent()) {
+            //Find necessary activity
             Optional<Activity> maybeActivity = maybeObject.get()
                     .getActivities().stream()
                     .filter(activity -> activity.getDqID().equals(activityID))
@@ -82,15 +99,23 @@ public class LoadTestTranslator {
         else throw new IDNotFoundException(objectID);
     }
 
+    /**
+     * Get all Endpoints within one actor/work object mentioned in the modeled loadtest
+     * @param objects A list of all objects inside the mapping
+     * @param modeledLoadTest A modeled loadtest inside the modeling
+     * @return A list with endpoint objects
+     */
     private List<Endpoint> getEndpoints(LinkedHashSet<MappingObject> objects, ModeledLoadTest modeledLoadTest) {
         Artifact artifact = modeledLoadTest.getArtifact();
         Parametrization parametrization = modeledLoadTest.getParametrization();
         String objectID = artifact.getObject();
 
+        //Finde necessary object
         Optional<MappingObject> maybeObject = objects.stream()
                 .filter(x -> x.getDqID().equals(objectID))
                 .findFirst();
         if(maybeObject.isPresent()) {
+            //Find all existing endpoints inside this object
             List<Endpoint> endpoints = maybeObject.get()
                     .getActivities().stream()
                     .map(Activity::getEndpoint)
@@ -104,6 +129,13 @@ public class LoadTestTranslator {
         else throw new IDNotFoundException(objectID);
     }
 
+    /**
+     * Compare the parametrization from the modeling and from the mapping
+     * The parametrization from the modeling overwrites the parametrization inside an endpoint in the mapping
+     * @param endpoint Endpoint inside the mapping
+     * @param parametrization Defined parametrization in the modeling
+     * @return Endpoint with overwritten parametrization
+     */
     private Endpoint adoptParametrization(Endpoint endpoint, Parametrization parametrization) {
         String field = endpoint.getField();
         String operation = endpoint.getOperation();

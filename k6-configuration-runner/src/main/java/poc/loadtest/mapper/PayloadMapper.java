@@ -13,6 +13,9 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Maps the payload to Javascript-Code
+ */
 @Component
 public class PayloadMapper implements k6Mapper {
 

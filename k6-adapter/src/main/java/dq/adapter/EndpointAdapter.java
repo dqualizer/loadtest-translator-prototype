@@ -8,6 +8,7 @@ import dq.dqlang.loadtest.Endpoint;
 import dq.dqlang.loadtest.Response;
 import dq.dqlang.loadtest.ResponseMeasure;
 import dq.exception.UnknownTermException;
+import dq.input.ConstantsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +19,21 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Adapts one endpoint to a Request object
+ */
 @Component
 public class EndpointAdapter {
 
     @Autowired
     private ConstantsLoader constantsLoader;
 
+    /**
+     *
+     * @param endpoint Endpoint for one loadtest
+     * @param responseMeasure Information for response measures
+     * @return An inoffical k6 Request object
+     */
     public Request adaptEndpoint(Endpoint endpoint, ResponseMeasure responseMeasure) {
         String field = endpoint.getField();
         String path = this.markPathVariables(field);
@@ -47,7 +57,7 @@ public class EndpointAdapter {
      * After that a "$"-symbol will be added to all found variables inside the field
      *
      * @param field Path with unmarked variables
-     * @return Path with marked variables, for example "{id}" turns into "${id}"
+     * @return Path with marked variables, for example '{id}' turns into '${id}'
      */
     private String markPathVariables(String field) {
         Pattern pattern = Pattern.compile("\\{.*?}");
@@ -65,6 +75,11 @@ public class EndpointAdapter {
         return markedPathVariables;
     }
 
+    /**
+     * Get the expected answer duration for this request specified in the modeling
+     * @param responseMeasure Information for response measures
+     * @return The expected answer duration for this request
+     */
     private int getDuration(ResponseMeasure responseMeasure) {
         LoadTestConstants constants = constantsLoader.load();
         ResponseTime responseTime = constants.getResponseTime();
@@ -80,6 +95,11 @@ public class EndpointAdapter {
         return duration;
     }
 
+    /**
+     * Get a set of expected status codes for this request
+     * @param endpoint Endpoint for this request
+     * @return A set of expected status codes
+     */
     private LinkedHashSet<Integer> getStatusCodes(Endpoint endpoint) {
         LinkedHashSet<Response> responses = endpoint.getResponses();
         LinkedHashSet<Integer> statusCodes = new LinkedHashSet<>();

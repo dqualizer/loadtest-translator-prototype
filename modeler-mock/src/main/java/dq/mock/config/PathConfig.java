@@ -3,6 +3,9 @@ package dq.mock.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration for local file paths
+ */
 @Configuration
 public class PathConfig {
 

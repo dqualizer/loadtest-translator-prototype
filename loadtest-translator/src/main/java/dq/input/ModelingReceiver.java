@@ -21,6 +21,12 @@ public class ModelingReceiver {
     @Autowired
     private TranslationManager manager;
 
+    /**
+     * Import the modeling and start the translation process
+     * @param modelingJSON The modeling as a JSON-String
+     * @throws IOException
+     * @throws InvalidModelingSchemaException If the modeling could not be transformed to a Java object
+     */
     @RabbitListener(queues = Constant.MODELING_QUEUE)
     public void receive(@Payload String modelingJSON) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

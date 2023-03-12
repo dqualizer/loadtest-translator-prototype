@@ -5,6 +5,9 @@ import dq.dqlang.constants.accuracy.Accuracy;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Java class for load test constants definitions
+ */
 @Getter
 @ToString
 public class LoadTestConstants {

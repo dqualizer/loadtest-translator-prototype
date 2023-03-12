@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Maps the path variables to Javascript-Code
+ */
 @Component
 public class PathVariablesMapper implements k6Mapper {
 

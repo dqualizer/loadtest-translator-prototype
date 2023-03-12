@@ -8,7 +8,7 @@ import lombok.ToString;
 import java.util.LinkedHashSet;
 
 /**
- * Java class for k6 loadtest configurations
+ * Java class for inoffical k6 loadtest configurations
  */
 @Getter
 @ToString

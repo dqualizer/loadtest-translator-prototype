@@ -10,17 +10,27 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Adapts the paths from an OpenAPI-schema
+ */
 @Component
 public class PathsAdapter {
 
+    /**
+     * Adapt every path inside the OpenAPI-schema to a field inside the dqlang-API-schema
+     * @param pathsObject A JSONObject with all paths inside
+     * @return A set of fields for the dqlang-API-schema
+     */
     public LinkedHashSet<FieldItem> getField(JSONObject pathsObject) {
         LinkedHashSet<FieldItem> fieldItems = new LinkedHashSet<>();
         Set<String> paths = pathsObject.keySet();
 
+        //iterate through all existing paths
         for (String path : paths) {
             JSONObject pathObject = pathsObject.getJSONObject(path);
             Set<String> operations = pathObject.keySet();
 
+            //iterate through all existing operations for one path
             for (String operation : operations) {
                 JSONObject operationObject = pathObject.getJSONObject(operation);
 
@@ -36,6 +46,11 @@ public class PathsAdapter {
         return fieldItems;
     }
 
+    /**
+     * Adapt the inputs for one path-operation
+     * @param operationObject The operation-JSONObject inside one path
+     * @return An adapted set of inputs for one path-operation
+     */
     private LinkedHashSet<Input> getInput(JSONObject operationObject) {
         LinkedHashSet<Input> inputs = new LinkedHashSet<>();
         if (!operationObject.has("parameters")) return inputs;
@@ -55,6 +70,11 @@ public class PathsAdapter {
         return inputs;
     }
 
+    /**
+     * Adapt the bodies for one path-operation
+     * @param operationObject The operation-JSONObject inside one path
+     * @return An adapted body-JSONObject for one path-operation
+     */
     private Map<String, DataType> getBody(JSONObject operationObject) {
         if (!operationObject.has("requestBody")) return new LinkedHashMap<>();
 
@@ -62,23 +82,6 @@ public class PathsAdapter {
         JSONObject content = requestBody.getJSONObject("content");
         Map<String, DataType> body = this.getDataTypes(content);
         return body;
-    }
-
-    private LinkedHashSet<Map<String, Output>> getOutput(JSONObject operationObject) {
-        LinkedHashSet<Map<String, Output>> outputs = new LinkedHashSet<>();
-        if (!operationObject.has("responses")) return outputs;
-
-        JSONObject responsesObject = operationObject.getJSONObject("responses");
-        Set<String> responses = responsesObject.keySet();
-
-        for (String response : responses) {
-            JSONObject oneResponse = responsesObject.getJSONObject(response);
-            JSONObject content = oneResponse.getJSONObject("content");
-
-            Map<String, Output> output = this.getOneOutput(content, response);
-            outputs.add(output);
-        }
-        return outputs;
     }
 
     private Map<String, DataType> getDataTypes(JSONObject contentsObject) {
@@ -103,6 +106,34 @@ public class PathsAdapter {
         return dataTypes;
     }
 
+    /**
+     * Adapt the outputs for one path-operation
+     * @param operationObject The operation-JSONObject inside one path
+     * @return An adapted set of outputs for the path-operation
+     */
+    private LinkedHashSet<Map<String, Output>> getOutput(JSONObject operationObject) {
+        LinkedHashSet<Map<String, Output>> outputs = new LinkedHashSet<>();
+        if (!operationObject.has("responses")) return outputs;
+
+        JSONObject responsesObject = operationObject.getJSONObject("responses");
+        Set<String> responses = responsesObject.keySet();
+
+        for (String response : responses) {
+            JSONObject oneResponse = responsesObject.getJSONObject(response);
+            JSONObject content = oneResponse.getJSONObject("content");
+
+            Map<String, Output> output = this.getOneOutput(content, response);
+            outputs.add(output);
+        }
+        return outputs;
+    }
+
+    /**
+     * Adapt one particular output
+     * @param contentsObject The content-type-object within one output-object
+     * @param expectedCode The expected status code for this output
+     * @return A map with particular content-types as keys and Output-objects as values
+     */
     private Map<String, Output> getOneOutput(JSONObject contentsObject, String expectedCode) {
         Set<String> contents = contentsObject.keySet();
         Map<String, Output> output = new LinkedHashMap<>();

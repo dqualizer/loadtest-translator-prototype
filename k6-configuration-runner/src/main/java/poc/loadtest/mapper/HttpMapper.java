@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Maps the specified request to a k6 'default function()'
+ */
 @Component
 public class HttpMapper implements k6Mapper {
 
@@ -35,6 +38,7 @@ public class HttpMapper implements k6Mapper {
             default -> throw new UnknownRequestTypeException(type);
         };
 
+        //Code for choosing one random variable for every existing path variable
         Map<String, String> pathVariables = request.getPathVariables();
         Optional<String> maybeReference = pathVariables.values().stream().findFirst();
         if(maybeReference.isPresent()) {
@@ -44,15 +48,14 @@ public class HttpMapper implements k6Mapper {
 
             Set<String> variables = pathVariablesJSON.keySet();
             for(String variable : variables) {
-                String randomPathVariable = String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
-                    newLine, variable, variable, variable, newLine);
+                String randomPathVariable = this.randomPathVaribleScript(variable);
                 httpBuilder.append(randomPathVariable);
             }
         }
 
+        //Code for using the request-parameter and payload inside the http method
         Map<String, String> payload = request.getPayload();
         Map<String, String> queryParams = request.getQueryParams();
-
         String extraParams = "";
         if(!payload.isEmpty() || !queryParams.isEmpty()) {
             if(!payload.isEmpty()  && !queryParams.isEmpty()) {
@@ -77,7 +80,13 @@ public class HttpMapper implements k6Mapper {
     }
 
     private String exportFunctionScript() {
-        return String.format("%sexport default function() {%s", newLine, newLine);
+        return String.format("%sexport default function() {%s",
+                newLine, newLine);
+    }
+
+    private String randomPathVaribleScript(String variable) {
+        return String.format("%slet %s = %s_array[Math.floor(Math.random() * %s_array.length)];%s",
+                newLine, variable, variable, variable, newLine);
     }
 
     private String randomPayloadScript() {

@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+/**
+ * Loads the modeling from a local file and sends it to a message-queue
+ */
 @Component
 public class ModelingProducer {
 
@@ -20,6 +24,11 @@ public class ModelingProducer {
     @Autowired
     private PathConfig paths;
 
+    /**
+     * Method starts as soon as Spring is ready.
+     * Sends the modeling to the loadtest-translator
+     * @throws IOException
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void produce() throws IOException {
         String modeling = this.loadModeling();
@@ -31,6 +40,11 @@ public class ModelingProducer {
         );
     }
 
+    /**
+     * Load modeling from a local file
+     * @return String The file content as a String
+     * @throws IOException
+     */
     private String loadModeling() throws IOException {
         String modelingPath = paths.getModeling();
         String modelingJSON = Files.readString(Paths.get(modelingPath));

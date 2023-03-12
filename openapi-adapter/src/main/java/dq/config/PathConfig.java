@@ -2,6 +2,9 @@ package dq.config;
 
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration for local file paths
+ */
 @Configuration
 public class PathConfig {
 
