@@ -1,4 +1,4 @@
-package dq.dqlang.constants.accuracy;
+package dq.dqlang.constants.loadprofile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

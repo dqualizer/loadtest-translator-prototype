@@ -1,9 +1,9 @@
 package dq.adapter;
 
 import dq.dqlang.constants.LoadTestConstants;
-import dq.dqlang.constants.accuracy.ConstantLoad;
-import dq.dqlang.constants.accuracy.LoadIncrease;
-import dq.dqlang.constants.accuracy.LoadPeak;
+import dq.dqlang.constants.loadprofile.ConstantLoad;
+import dq.dqlang.constants.loadprofile.LoadIncrease;
+import dq.dqlang.constants.loadprofile.LoadPeak;
 import dq.dqlang.k6.options.*;
 import dq.dqlang.loadtest.Stimulus;
 import dq.exception.UnknownTermException;
@@ -50,7 +50,7 @@ public class StimulusAdapter {
      */
     public Scenario getLoadPeakScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
-        LoadPeak loadPeak = constants.getAccuracy().getLoadPeak();
+        LoadPeak loadPeak = constants.getLoadProfile().getLoadPeak();
 
         String highestLoad = stimulus.getHighestLoad();
         int target;
@@ -88,7 +88,7 @@ public class StimulusAdapter {
      */
     public Scenario getLoadIncreaseScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
-        LoadIncrease loadIncrease = constants.getAccuracy().getLoadIncrease();
+        LoadIncrease loadIncrease = constants.getLoadProfile().getLoadIncrease();
 
         String typeOfIncrease = stimulus.getTypeOfIncrease();
         int exponent;
@@ -141,7 +141,7 @@ public class StimulusAdapter {
      */
     public Scenario getConstantLoadScenario(Stimulus stimulus) {
         LoadTestConstants constants = constantsLoader.load();
-        ConstantLoad constantLoad = constants.getAccuracy().getConstantLoad();
+        ConstantLoad constantLoad = constants.getLoadProfile().getConstantLoad();
 
         String baseLoad = stimulus.getBaseLoad();
         int vus;

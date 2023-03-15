@@ -1,21 +1,24 @@
 {
   "accuracy": {
     "repetition": {
-      "min": 2,
-      "max": 10
-    },
+      "min": 1,
+      "max": 3
+    }
+  },
+  "load_profile": {
     "load_peak": {
-      "high": 20,
-      "very_high": 40,
-      "extremely_high": 50,
-      "slow": "5m",
-      "fast": "2m",
-      "very_fast": "1m"
+      "high": 10,
+      "very_high": 15,
+      "extremely_high": 30,
+      "slow": "20s",
+      "fast": "15s",
+      "very_fast": "10s",
+      "cool_down_duration": "5s"
     },
     "load_increase": {
       "start_target": 10,
-      "end_target": 100,
-      "stage_duration": "1m",
+      "end_target": 60,
+      "stage_duration": "5s",
       "linear": 1,
       "quadratic": 2,
       "cubic": 3
@@ -23,9 +26,9 @@
     "constant_load": {
       "low": 10,
       "medium": 20,
-      "high": 40,
+      "high": 30,
       "min_duration": 1000,
-      "max_duration": 600000
+      "max_duration": 10000
     }
   },
   "response_time": {
