@@ -1,5 +1,5 @@
 # Copied xk6-Dockerfile from: https://github.com/grafana/xk6-output-influxdb/blob/main/Dockerfile
-FROM golang:1.17-alpine as k6
+FROM golang:1.19-alpine as k6
 WORKDIR $GOPATH/src/go.k6.io/k6
 ADD . .
 RUN apk --no-cache add git && go install go.k6.io/xk6/cmd/xk6@latest
