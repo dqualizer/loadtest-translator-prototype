@@ -81,6 +81,7 @@ services:
   rabbit:
     container_name: "thesis-rabbit"
     image: rabbitmq:3-management
+    user: rabbitmq
     ports:
       - "15672:15672"
       - "5672:5672"
