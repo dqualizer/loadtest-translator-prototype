@@ -1,0 +1,37 @@
+{
+    "version": 1.0,
+    "context": "werkstattauftrag",
+    "environment": "TEST",
+    "runtime_quality_analysis": {
+        "monitoring": [],
+        "resilience": [],
+        "loadtests": [
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id4"
+                },
+                "description": "Auftrag anlegen",
+                "stimulus": {
+                    "load_profile": "LOAD_INCREASE",
+                    "type_of_increase": "QUADRATIC",
+                    "accuracy": 70
+                },
+                "parametrization": {
+                    "path_variables": {},
+                    "url_parameter": {},
+                    "request_parameter": {
+                        "headers": "auftrag/allgemein/headers.json"
+                    },
+                    "payload": {
+                        "auftraggeber_2022": "auftrag/auftraggeber/2022/auftraggeber.json"
+                    }
+                },
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": []
+            }
+        ]
+    }
+}

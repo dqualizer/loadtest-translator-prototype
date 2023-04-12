@@ -1,0 +1,39 @@
+{
+    "version": 1.0,
+    "context": "werkstattauftrag",
+    "environment": "TEST",
+    "runtime_quality_analysis": {
+        "monitoring": [],
+        "resilience": [],
+        "loadtests": [
+            {
+                "artifact": {
+                    "object": "id1",
+                    "activity": "id3"
+                },
+                "stimulus": {
+                    "load_profile": "LOAD_PEAK",
+                    "highest_load": "VERY_HIGH",
+                    "time_to_highest_load": "FAST",
+                    "accuracy": 80
+                },
+                "parametrization": {
+                    "path_variables": {
+                        "auftragsnummer": "auftrag/auftragsnummern/angelegt.json"
+                    },
+                    "url_parameter": {},
+                    "request_parameter": {},
+                    "payload": {}
+                },
+                "response_measure": {
+                    "response_time": "SATISFIED"
+                },
+                "result_metrics": [
+                    "response_time",
+                    "90th_percentile",
+                    "95th_percentile"
+                ]
+            }
+        ]
+    }
+}
