@@ -1,3 +1,6 @@
+# Deprecated
+Contents of this repository have been moved to the dqualizer components. This project is not maintained any longer.
+
 # Loadtest Translator Prototype (Bachelor Thesis)
 
 ---
